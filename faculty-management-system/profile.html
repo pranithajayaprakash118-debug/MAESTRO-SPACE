@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Profile | Maestro Space</title>
+
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- Main CSS -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           PROFILE PAGE
+        ===================================================== */
+
+        .profile-page {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .profile-page .topbar-title h4 {
+            font-size: 24px !important;
+            font-weight: 600 !important;
+            line-height: 1.2 !important;
+            margin: 0 !important;
+        }
+
+        .profile-page .topbar-title p {
+            font-size: 14px !important;
+            margin: 4px 0 0 !important;
+        }
+
+
+        /* =====================================================
+           PROFILE HEADER
+        ===================================================== */
+
+        .profile-header-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px;
+
+            border-radius: 22px;
+
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(255,255,255,0.25) 0 2px,
+                    transparent 3px
+                ),
+                radial-gradient(
+                    circle at 72% 70%,
+                    rgba(255,255,255,0.20) 0 1.5px,
+                    transparent 3px
+                ),
+                radial-gradient(
+                    circle at 92% 75%,
+                    rgba(255,255,255,0.22) 0 2px,
+                    transparent 3px
+                ),
+                linear-gradient(
+                    135deg,
+                    #25203f,
+                    #43356f 55%,
+                    #66518f
+                );
+
+            color: white;
+
+            box-shadow:
+                0 14px 35px rgba(57, 43, 95, 0.15);
+
+        }
+
+
+        .profile-header-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+        }
+
+
+        /* =====================================================
+           PROFILE PICTURE
+        ===================================================== */
+
+        .profile-picture-wrapper {
+
+            position: relative;
+
+            width: 105px !important;
+            height: 105px !important;
+
+            min-width: 105px !important;
+            max-width: 105px !important;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .profile-picture {
+
+            width: 105px !important;
+            height: 105px !important;
+
+            min-width: 105px !important;
+            max-width: 105px !important;
+
+            min-height: 105px !important;
+            max-height: 105px !important;
+
+            border-radius: 28px;
+
+            background: rgba(255,255,255,0.14);
+
+            border: 2px solid rgba(255,255,255,0.35);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden !important;
+
+            font-size: 42px;
+
+            color: rgba(255,255,255,0.85);
+
+        }
+
+
+        /* VERY IMPORTANT:
+           Keep uploaded image inside the profile box */
+
+        .profile-picture img {
+
+            display: block !important;
+
+            width: 105px !important;
+            height: 105px !important;
+
+            min-width: 105px !important;
+            max-width: 105px !important;
+
+            min-height: 105px !important;
+            max-height: 105px !important;
+
+            object-fit: cover !important;
+
+            border-radius: 26px !important;
+
+            margin: 0 !important;
+
+            padding: 0 !important;
+
+        }
+
+
+        /* =====================================================
+           CAMERA BUTTON
+        ===================================================== */
+
+        .camera-button {
+
+            position: absolute;
+
+            right: -6px;
+            bottom: -6px;
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 50%;
+
+            border: 3px solid #3c315f;
+
+            background: white;
+
+            color: #4d3b78;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            z-index: 5;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .camera-button:hover {
+
+            transform: scale(1.08);
+
+        }
+
+
+        /* =====================================================
+           HEADER TEXT
+        ===================================================== */
+
+        .profile-header-text h3 {
+
+            margin: 0 0 6px;
+
+            font-size: 25px;
+
+            font-weight: 650;
+
+        }
+
+
+        .profile-header-text p {
+
+            margin: 0;
+
+            font-size: 14px;
+
+            color: rgba(255,255,255,0.78);
+
+        }
+
+
+        /* =====================================================
+           PROFILE FORM
+        ===================================================== */
+
+        .profile-form-card {
+
+            margin-top: 24px;
+
+        }
+
+
+        .profile-form-title {
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .profile-form-title h5 {
+
+            margin: 0 0 5px;
+
+            font-size: 18px;
+
+            font-weight: 650;
+
+        }
+
+
+        .profile-form-title p {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #888;
+
+        }
+
+
+        .profile-label {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+
+            color: #444;
+
+        }
+
+
+        .profile-input {
+
+            border-radius: 12px !important;
+
+            padding: 11px 13px !important;
+
+            border: 1px solid #dddddd !important;
+
+            font-size: 14px !important;
+
+        }
+
+
+        .profile-input:focus {
+
+            border-color: var(--theme-primary) !important;
+
+            box-shadow:
+                0 0 0 3px var(--theme-soft) !important;
+
+        }
+
+
+        /* =====================================================
+           SAVE BUTTON
+        ===================================================== */
+
+        .profile-actions {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            margin-top: 25px;
+
+        }
+
+
+        .save-profile-btn {
+
+            border: none;
+
+            border-radius: 11px;
+
+            padding: 10px 20px;
+
+            background: var(--theme-primary);
+
+            color: white;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .save-profile-btn:hover {
+
+            background: var(--theme-primary-dark);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =====================================================
+           PROFILE PREVIEW
+        ===================================================== */
+
+        .profile-preview-card {
+
+            margin-top: 24px;
+
+        }
+
+
+        .preview-title {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .preview-title h5 {
+
+            margin: 0 0 5px;
+
+            font-size: 18px;
+
+            font-weight: 650;
+
+        }
+
+
+        .preview-title p {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #888;
+
+        }
+
+
+        .preview-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            padding: 18px;
+
+            border-radius: 16px;
+
+            background: var(--theme-soft);
+
+        }
+
+
+        .preview-avatar {
+
+            width: 58px !important;
+            height: 58px !important;
+
+            min-width: 58px !important;
+            max-width: 58px !important;
+
+            min-height: 58px !important;
+            max-height: 58px !important;
+
+            border-radius: 17px;
+
+            background: white;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden !important;
+
+            color: var(--theme-primary);
+
+            font-size: 23px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .preview-avatar img {
+
+            display: block !important;
+
+            width: 58px !important;
+            height: 58px !important;
+
+            min-width: 58px !important;
+            max-width: 58px !important;
+
+            min-height: 58px !important;
+            max-height: 58px !important;
+
+            object-fit: cover !important;
+
+            border-radius: 15px !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+        }
+
+
+        .preview-info h6 {
+
+            margin: 0 0 4px;
+
+            font-size: 15px;
+
+            font-weight: 650;
+
+        }
+
+
+        .preview-info p {
+
+            margin: 0;
+
+            font-size: 13px;
+
+            color: #777;
+
+        }
+
+
+        /* =====================================================
+           TOP MINI PROFILE IMAGE
+        ===================================================== */
+
+        .profile-page .profile-avatar {
+
+            width: 40px !important;
+            height: 40px !important;
+
+            min-width: 40px !important;
+            max-width: 40px !important;
+
+            min-height: 40px !important;
+            max-height: 40px !important;
+
+            overflow: hidden !important;
+
+            border-radius: 50%;
+
+        }
+
+
+        .profile-page .profile-avatar img {
+
+            display: block !important;
+
+            width: 40px !important;
+            height: 40px !important;
+
+            min-width: 40px !important;
+            max-width: 40px !important;
+
+            min-height: 40px !important;
+            max-height: 40px !important;
+
+            object-fit: cover !important;
+
+            border-radius: 50% !important;
+
+            margin: 0 !important;
+            padding: 0 !important;
+
+        }
+
+
+        /* =====================================================
+           SUCCESS MESSAGE
+        ===================================================== */
+
+        .profile-success {
+
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 11px 14px;
+
+            border-radius: 11px;
+
+            background: #eaf8ef;
+
+            color: #237a42;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+        }
+
+
+        .profile-success.show {
+
+            display: block;
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .profile-header-content {
+
+                align-items: flex-start;
+
+            }
+
+
+            .profile-picture-wrapper {
+
+                width: 85px !important;
+                height: 85px !important;
+
+                min-width: 85px !important;
+                max-width: 85px !important;
+
+            }
+
+
+            .profile-picture {
+
+                width: 85px !important;
+                height: 85px !important;
+
+                min-width: 85px !important;
+                max-width: 85px !important;
+
+                min-height: 85px !important;
+                max-height: 85px !important;
+
+            }
+
+
+            .profile-picture img {
+
+                width: 85px !important;
+                height: 85px !important;
+
+                min-width: 85px !important;
+                max-width: 85px !important;
+
+                min-height: 85px !important;
+                max-height: 85px !important;
+
+            }
+
+
+            .profile-header-text h3 {
+
+                font-size: 21px;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .profile-header-card {
+
+                padding: 22px;
+
+            }
+
+
+            .profile-header-content {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .profile-actions {
+
+                justify-content: stretch;
+
+            }
+
+
+            .save-profile-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container profile-page">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <div id="sidebar-container"></div>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <div id="topbar-container"></div>
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <section class="content-area">
+
+
+            <!-- PROFILE HEADER -->
+
+            <div class="profile-header-card">
+
+
+                <div class="profile-header-content">
+
+
+                    <div class="profile-picture-wrapper">
+
+
+                        <div
+                            class="profile-picture"
+                            id="profilePicturePreview"
+                        >
+
+                            <i class="bi bi-person"></i>
+
+                        </div>
+
+
+                        <label
+                            for="profilePictureInput"
+                            class="camera-button"
+                            title="Change profile picture"
+                        >
+
+                            <i class="bi bi-camera-fill"></i>
+
+                        </label>
+
+
+                        <input
+                            type="file"
+                            id="profilePictureInput"
+                            accept="image/*"
+                            hidden
+                        >
+
+
+                    </div>
+
+
+                    <div class="profile-header-text">
+
+
+                        <h3 id="headerProfileName">
+                            Faculty
+                        </h3>
+
+
+                        <p>
+                            Your profile information is shared with Maestro Space.
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- PROFILE INFORMATION -->
+
+            <div class="content-card profile-form-card">
+
+
+                <div class="profile-form-title">
+
+                    <h5>
+                        Profile Information
+                    </h5>
+
+                    <p>
+                        Keep your basic information up to date.
+                    </p>
+
+                </div>
+
+
+                <form id="profileForm">
+
+
+                    <!-- NAME -->
+
+                    <div class="mb-4">
+
+
+                        <label
+                            for="profileName"
+                            class="profile-label"
+                        >
+                            Name
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="profileName"
+                            class="form-control profile-input"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="mb-4">
+
+
+                        <label
+                            for="profileEmail"
+                            class="profile-label"
+                        >
+                            Email
+                        </label>
+
+
+                        <div class="input-group">
+
+
+                            <span class="input-group-text">
+
+                                <i class="bi bi-envelope"></i>
+
+                            </span>
+
+
+                            <input
+                                type="email"
+                                id="profileEmail"
+                                class="form-control profile-input"
+                                placeholder="Enter your email"
+                                required
+                            >
+
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- SAVE -->
+
+                    <div class="profile-actions">
+
+
+                        <button
+                            type="submit"
+                            class="save-profile-btn"
+                        >
+
+                            <i class="bi bi-check2"></i>
+
+                            Save Changes
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+                <div
+                    class="profile-success"
+                    id="profileSuccess"
+                >
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                    Profile updated successfully.
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script src="js/script.js"></script>
+
+<script src="js/storage.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+
+        /* =====================================================
+           ELEMENTS
+        ====================================================== */
+
+        const form =
+            document.getElementById(
+                "profileForm"
+            );
+
+
+        const nameInput =
+            document.getElementById(
+                "profileName"
+            );
+
+
+        const emailInput =
+            document.getElementById(
+                "profileEmail"
+            );
+
+
+        const pictureInput =
+            document.getElementById(
+                "profilePictureInput"
+            );
+
+
+        const picturePreview =
+            document.getElementById(
+                "profilePicturePreview"
+            );
+
+
+        const topAvatar =
+            document.getElementById(
+                "topProfileAvatar"
+            );
+
+
+        const topName =
+            document.getElementById(
+                "facultyNameDisplay"
+            );
+
+
+        const headerName =
+            document.getElementById(
+                "headerProfileName"
+            );
+
+
+        const success =
+            document.getElementById(
+                "profileSuccess"
+            );
+
+        let profilePictureFileId = null;
+        let profilePictureObjectUrl = null;
+
+        async function requestProfileApi(options = {}) {
+            const response = await fetch("/api/profile", options);
+            let result = null;
+
+            try {
+                result = await response.json();
+            } catch (error) {
+                result = null;
+            }
+
+            if (!response.ok) {
+                throw new Error(result?.error || `Profile request failed (${response.status}).`);
+            }
+
+            return result;
+        }
+
+        async function saveProfilePictureToIndexedDb(blob) {
+            const savedPointer = await FacultyStorage.getMetadata(
+                "profilePictureFileId"
+            );
+            const previousFileId = savedPointer?.value || profilePictureFileId;
+
+            if (previousFileId) {
+                const previousFile = await FacultyStorage.getFile(previousFileId);
+                if (previousFile?.blob instanceof Blob && previousFile.blob.type === blob.type && previousFile.blob.size === blob.size) {
+                    const previousBytes = new Uint8Array(await previousFile.blob.arrayBuffer());
+                    const currentBytes = new Uint8Array(await blob.arrayBuffer());
+                    const isSamePicture = currentBytes.every(
+                        (byte, index) => byte === previousBytes[index]
+                    );
+
+                    if (isSamePicture) {
+                        profilePictureFileId = previousFileId;
+                        return;
+                    }
+                }
+            }
+
+            const fileId = await FacultyStorage.saveFile({
+                blob,
+                name: "profile-picture",
+                type: blob.type,
+                createdAt: new Date().toISOString()
+            });
+
+            try {
+                await FacultyStorage.saveMetadata("profilePictureFileId", fileId);
+            } catch (error) {
+                await FacultyStorage.deleteFile(fileId);
+                throw error;
+            }
+
+            if (previousFileId && previousFileId !== fileId) {
+                await FacultyStorage.deleteFile(previousFileId).catch(() => {});
+            }
+
+            profilePictureFileId = fileId;
+        }
+
+        function profilePictureBlob(profile) {
+            const binary = atob(profile.pictureData);
+            const bytes = new Uint8Array(binary.length);
+
+            for (let index = 0; index < binary.length; index += 1) {
+                bytes[index] = binary.charCodeAt(index);
+            }
+
+            return new Blob([bytes], {
+                type: profile.pictureMimeType || "application/octet-stream"
+            });
+        }
+
+
+        /* =====================================================
+           LOAD SAVED PROFILE
+        ====================================================== */
+
+        let savedName = localStorage.getItem("facultyName") || "Faculty";
+        let savedEmail = localStorage.getItem("facultyEmail") || "";
+        let savedPicture = null;
+
+        try {
+            let profile = await requestProfileApi();
+            savedPicture = await migrateLegacyProfilePicture();
+
+            if (
+                profile.name === "Faculty" &&
+                profile.email === "" &&
+                (savedName !== "Faculty" || savedEmail !== "")
+            ) {
+                profile = await requestProfileApi({
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name: savedName, email: savedEmail })
+                });
+            }
+
+            if (!profile.pictureData && savedPicture?.blob) {
+                profile = await requestProfileApi({
+                    method: "PUT",
+                    headers: { "Content-Type": savedPicture.blob.type },
+                    body: savedPicture.blob
+                });
+            }
+
+            savedName = profile.name || "Faculty";
+            savedEmail = profile.email || "";
+            localStorage.setItem("facultyName", savedName);
+            localStorage.setItem("facultyEmail", savedEmail);
+
+            if (profile.pictureData) {
+                const pictureBlob = profilePictureBlob(profile);
+                await saveProfilePictureToIndexedDb(pictureBlob);
+                profilePictureObjectUrl = URL.createObjectURL(pictureBlob);
+            }
+        } catch (error) {
+            console.error("Unable to load the saved profile.", error);
+            savedPicture = await migrateLegacyProfilePicture().catch(() => null);
+            if (savedPicture?.blob) {
+                profilePictureFileId = savedPicture.id;
+                profilePictureObjectUrl = URL.createObjectURL(savedPicture.blob);
+            }
+        }
+
+        nameInput.value = savedName;
+        emailInput.value = savedEmail;
+
+        updateDisplay(
+            savedName,
+            savedEmail,
+            profilePictureObjectUrl
+        );
+
+
+        /* =====================================================
+           PROFILE PICTURE
+        ====================================================== */
+
+        pictureInput.addEventListener(
+            "change",
+            async function () {
+
+
+                const file =
+                    this.files[0];
+
+
+                if (!file) {
+                    return;
+                }
+
+
+                if (
+                    !file.type.startsWith(
+                        "image/"
+                    )
+                ) {
+
+                    alert(
+                        "Please select an image file."
+                    );
+
+                    this.value = "";
+
+                    return;
+
+                }
+
+
+                try {
+                    await requestProfileApi({
+                        method: "PUT",
+                        headers: { "Content-Type": file.type },
+                        body: file
+                    });
+                    await saveProfilePictureToIndexedDb(file);
+
+                    const previousObjectUrl = profilePictureObjectUrl;
+                    profilePictureObjectUrl = URL.createObjectURL(file);
+
+                    updateDisplay(
+                        nameInput.value.trim() || "Faculty",
+                        emailInput.value.trim(),
+                        profilePictureObjectUrl
+                    );
+
+                    if (previousObjectUrl) {
+                        URL.revokeObjectURL(previousObjectUrl);
+                    }
+
+                    showMessage("Profile picture updated.");
+                } catch (error) {
+                    console.error("Unable to save the profile picture.", error);
+                    alert("Unable to save the profile picture.");
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           SAVE PROFILE
+        ====================================================== */
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+
+
+                event.preventDefault();
+
+
+                const name =
+                    nameInput.value.trim();
+
+
+                const email =
+                    emailInput.value.trim();
+
+
+                if (!name) {
+
+                    alert(
+                        "Please enter your name."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!email) {
+
+                    alert(
+                        "Please enter your email."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+                    await requestProfileApi({
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ name, email })
+                    });
+
+                    localStorage.setItem("facultyName", name);
+                    localStorage.setItem("facultyEmail", email);
+
+                    updateDisplay(
+                        name,
+                        email,
+                        profilePictureObjectUrl
+                    );
+
+                    showMessage("Profile updated successfully.");
+                } catch (error) {
+                    console.error("Unable to save the profile.", error);
+                    alert(error.message || "Unable to save the profile.");
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           UPDATE PROFILE DISPLAY
+        ====================================================== */
+
+        function updateDisplay(
+            name,
+            email,
+            picture
+        ) {
+
+            const currentTopAvatar =
+                document.getElementById("topProfileAvatar") || topAvatar;
+
+            headerName.textContent =
+                name;
+
+
+            if (topName) {
+                topName.textContent =
+                    name;
+            }
+
+
+            /* Profile picture */
+
+            if (picture) {
+
+
+                if (picturePreview) {
+                    picturePreview.innerHTML = "";
+                }
+
+
+                const mainImage =
+                    document.createElement("img");
+
+
+                mainImage.src =
+                    picture;
+
+                mainImage.alt =
+                    "Profile Picture";
+
+
+                if (picturePreview) {
+                    picturePreview.appendChild(
+                        mainImage
+                    );
+                }
+
+
+                if (currentTopAvatar) {
+                    currentTopAvatar.innerHTML = "";
+                }
+
+
+                const topImage =
+                    document.createElement("img");
+
+
+                topImage.src =
+                    picture;
+
+                topImage.alt =
+                    "Profile Picture";
+
+
+                if (currentTopAvatar) {
+                    currentTopAvatar.appendChild(
+                        topImage
+                    );
+                }
+
+
+            } else {
+
+
+                if (picturePreview) {
+                    picturePreview.innerHTML =
+                        '<i class="bi bi-person"></i>';
+                }
+
+
+                if (currentTopAvatar) {
+                    currentTopAvatar.innerHTML =
+                        '<i class="bi bi-person"></i>';
+                }
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SUCCESS MESSAGE
+        ====================================================== */
+
+        function showMessage(message) {
+
+
+            success.innerHTML = `
+                <i class="bi bi-check-circle-fill"></i>
+                ${message}
+            `;
+
+
+            success.classList.add(
+                "show"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    success.classList.remove(
+                        "show"
+                    );
+
+                },
+                2500
+            );
+
+        }
+
+
+    }
+);
+
+</script>
+
+
+    <script src="js/layout.js"></script>
+</body>
+
+</html>

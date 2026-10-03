@@ -1,0 +1,3738 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Timetable | Faculty Management System</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Project CSS -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+
+    <style>
+
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .timetable-page {
+            padding: 25px;
+        }
+
+        .page-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .page-title-row h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e1e2e;
+        }
+
+        .page-title-row p {
+            margin: 5px 0 0;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .page-actions .btn-primary,
+        .modal-footer .btn-primary {
+            background: var(--theme-primary);
+            border-color: var(--theme-primary);
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .timetable-header-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .timetable-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .timetable-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .timetable-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--theme-soft);
+            color: var(--theme-primary);
+            font-size: 21px;
+        }
+
+        .timetable-title h5 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .timetable-title p {
+            margin: 4px 0 0;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .timetable-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .timetable-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .timetable-card-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timetable-card-header h5 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .timetable-card-header span {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .timetable-grid {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .timetable-grid th {
+            background: var(--theme-soft);
+            color: var(--theme-primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 14px 8px;
+            text-align: center;
+            border-right: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .timetable-grid th:first-child {
+            width: 115px;
+        }
+
+        .timetable-grid td {
+            height: 110px;
+            padding: 5px;
+            border-right: 1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
+        }
+
+        .time-column {
+            background: #fafafa;
+            text-align: center;
+        }
+
+        .period-number {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            color: #6b7280;
+        }
+
+        .period-time {
+            display: block;
+            margin-top: 5px;
+            font-size: 9px;
+            line-height: 1.5;
+            color: #9ca3af;
+        }
+
+
+        /* =====================================================
+           EMPTY CLASS SLOT
+        ===================================================== */
+
+        .class-slot {
+            width: 100%;
+            height: 100%;
+            min-height: 98px;
+            border: 1px dashed #d8dce3;
+            border-radius: 9px;
+            background: #fcfcfd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: #a1a6ae;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .class-slot:hover {
+            background: var(--theme-soft);
+            border-color: var(--theme-primary);
+            color: var(--theme-primary);
+        }
+
+        .class-slot i {
+            font-size: 17px;
+        }
+
+        .class-slot span {
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           SAVED CLASS
+        ===================================================== */
+
+        .class-box {
+            width: 100%;
+            min-height: 98px;
+            height: 100%;
+            border: 0;
+            border-radius: 9px;
+            padding: 9px;
+            text-align: left;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .class-box:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 14px rgba(0, 0, 0, .08);
+        }
+
+        .class-icon {
+            font-size: 19px;
+            margin-bottom: 4px;
+        }
+
+        .class-subject {
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .class-section,
+        .class-room {
+            font-size: 9px;
+            margin-top: 4px;
+            opacity: .8;
+        }
+
+        .class-box.purple {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        .class-box.blue {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .class-box.green {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .class-box.orange {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .class-box.pink {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .class-box.teal {
+            background: #ccfbf1;
+            color: #0f766e;
+        }
+
+
+        /* =====================================================
+           BOTTOM CARDS
+        ===================================================== */
+
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .info-card-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--theme-soft);
+            color: var(--theme-primary);
+        }
+
+        .info-card h6 {
+            margin: 0;
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .info-card p {
+            margin: 3px 0 0;
+            font-size: 10px;
+            color: #9ca3af;
+        }
+
+        .info-empty {
+            border: 1px dashed #e1e4ea;
+            border-radius: 10px;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #a1a6ae;
+        }
+
+        .info-empty i {
+            font-size: 25px;
+            margin-bottom: 6px;
+        }
+
+        .info-empty span {
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           CREATE MODAL
+        ===================================================== */
+
+        .modal-title {
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .modal-subtitle {
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 3px;
+        }
+
+        .form-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 12px;
+        }
+
+        .day-selection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .day-option {
+            position: relative;
+        }
+
+        .day-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .day-option span {
+            display: block;
+            padding: 8px 12px;
+            border: 1px solid #dfe3e8;
+            border-radius: 8px;
+            font-size: 10px;
+            color: #6b7280;
+            cursor: pointer;
+        }
+
+        .day-option input:checked + span {
+            background: var(--theme-soft);
+            border-color: var(--theme-primary);
+            color: var(--theme-primary);
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           PERIOD EDITOR
+        ===================================================== */
+
+        .period-editor {
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .period-editor-header,
+        .period-row {
+            display: grid;
+            grid-template-columns: 70px 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .period-editor-header {
+            padding: 10px 12px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 10px;
+            font-weight: 700;
+            color: #6b7280;
+        }
+
+        .period-row {
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f1f3;
+        }
+
+        .period-row:last-child {
+            border-bottom: 0;
+        }
+
+        .period-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #6b7280;
+        }
+
+        .period-row input {
+            font-size: 11px;
+        }
+
+        .time-helper {
+            margin-top: 7px;
+            font-size: 10px;
+            color: #9ca3af;
+        }
+
+
+        /* =====================================================
+           DASHBOARD CHECKBOX
+        ===================================================== */
+
+        .dashboard-option {
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: #fafafa;
+        }
+
+        .dashboard-option .form-check {
+            margin: 0;
+        }
+
+        .dashboard-option .form-check-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .dashboard-option small {
+            display: block;
+            margin-left: 24px;
+            margin-top: 3px;
+            font-size: 9px;
+            color: #9ca3af;
+        }
+
+
+        /* =====================================================
+           CLASS MODAL
+        ===================================================== */
+
+        .icon-selection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .icon-option {
+            position: relative;
+        }
+
+        .icon-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .icon-option span {
+            width: 42px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e1e4ea;
+            border-radius: 9px;
+            font-size: 19px;
+            cursor: pointer;
+            transition: .2s;
+            background: white;
+        }
+
+        .icon-option input:checked + span {
+            background: var(--theme-soft);
+            border-color: var(--theme-primary);
+            transform: scale(1.04);
+        }
+
+
+        .color-selection {
+            display: flex;
+            gap: 9px;
+        }
+
+        .color-option {
+            position: relative;
+        }
+
+        .color-option input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .color-option span {
+            display: block;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 1px #d1d5db;
+            cursor: pointer;
+        }
+
+        .color-option input:checked + span {
+            box-shadow: 0 0 0 2px var(--theme-primary);
+        }
+
+        .color-purple { background: #8b5cf6; }
+        .color-blue { background: #3b82f6; }
+        .color-green { background: #22c55e; }
+        .color-orange { background: #f97316; }
+        .color-pink { background: #ec4899; }
+        .color-teal { background: #14b8a6; }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .timetable-page {
+                padding: 15px;
+            }
+
+            .page-title-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-actions {
+                width: 100%;
+            }
+
+            .page-actions .btn {
+                flex: 1;
+            }
+
+            .timetable-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timetable-actions {
+                width: 100%;
+            }
+
+            .timetable-actions .btn {
+                flex: 1;
+            }
+
+            .bottom-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    
+        
+
+
+
+
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6fa;
+            color: #1f2937;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed !important;
+
+            top: 0;
+            left: 0;
+
+            width: 250px !important;
+            height: 100vh !important;
+
+            background: #1e1e2e !important;
+
+            color: white;
+
+            z-index: 1050;
+
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.22) transparent;
+        }
+
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.22);
+            border-radius: 10px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+
+        /* =====================================================
+           SIDEBAR LOGO
+        ===================================================== */
+
+        .sidebar-logo {
+            min-height: 80px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 18px 20px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .sidebar-logo-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            background: var(--theme-primary, #6366f1);
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+
+            flex-shrink: 0;
+        }
+
+
+        .sidebar-logo h5 {
+            margin: 0;
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+        .sidebar-logo span {
+            display: block;
+
+            color: #a8a8b8;
+
+            font-size: 12px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR NAVIGATION
+        ===================================================== */
+
+        .sidebar-nav {
+            padding: 18px 12px 20px;
+        }
+
+
+        .menu-title {
+            margin: 18px 8px 8px;
+
+            color: #77798c;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .sidebar-nav .menu-title:first-child {
+            margin-top: 4px;
+        }
+
+
+        .sidebar .nav-item {
+            display: flex !important;
+
+            align-items: center !important;
+
+            gap: 13px;
+
+            width: 100%;
+
+            min-height: 45px;
+
+            padding: 10px 13px !important;
+
+            margin: 3px 0;
+
+            border-radius: 10px;
+
+            color: #c9c9d4 !important;
+
+            text-decoration: none !important;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar .nav-item i {
+            width: 21px;
+
+            min-width: 21px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        .sidebar .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+
+            color: white !important;
+        }
+
+
+        .sidebar .nav-item.active {
+            background: var(--theme-primary, #6366f1);
+
+            color: white !important;
+        }
+
+
+        .sidebar-bottom {
+            padding: 8px 12px 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+
+        .sidebar .logout {
+            color: #d4a7b2 !important;
+        }
+
+
+        .sidebar .logout:hover {
+            background: rgba(255,255,255,0.08);
+
+            color: white !important;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 250px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 80px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+
+        .topbar-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 0;
+        }
+
+
+        .mobile-menu-btn {
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 23px;
+
+            color: #333;
+
+            margin-right: 12px;
+        }
+
+
+        .topbar-title h4 {
+            font-size: 24px !important;
+
+            font-weight: 600 !important;
+
+            line-height: 1.2 !important;
+
+            margin: 0 !important;
+        }
+
+
+        .topbar-title p {
+            margin: 4px 0 0;
+
+            font-size: 14px;
+
+            color: #888;
+        }
+
+
+        .topbar-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            background: #f7f7fa;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #666;
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           TOP PROFILE
+        ===================================================== */
+
+        .profile-mini {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--theme-soft, #ede9fe);
+
+            color: var(--theme-primary, #6366f1);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .profile-info strong {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .profile-info small {
+            display: block;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+
+        
+
+
+
+
+
+        /* =====================================================
+           RESPONSIVE MAESTRO SPACE SHELL
+        ===================================================== */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                transform: translateX(-100%) !important;
+                transition: transform 0.25s ease;
+            }
+
+            .sidebar.show {
+                transform: translateX(0) !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+
+            .mobile-menu-btn {
+                display: block !important;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .profile-info {
+                display: none;
+            }
+        }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar-container"></div>
+
+
+    <!-- MAIN -->
+
+    <main class="main-content">
+
+
+        <div id="topbar-container"></div>
+
+
+        <!-- CONTENT -->
+
+        <div class="timetable-page">
+
+
+            <div class="page-title-row">
+
+                <div>
+
+                    <h2>Timetable</h2>
+
+                    <p>
+                        Create and manage your weekly class schedule.
+                    </p>
+
+                </div>
+
+
+                <div class="page-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-light"
+                        id="uploadButton"
+                    >
+                        <i class="bi bi-upload"></i>
+                        Upload Timetable
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="createButton"
+                    >
+                        <i class="bi bi-plus-lg"></i>
+                        Create Timetable
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CURRENT TIMETABLE -->
+
+            <div class="timetable-header-card">
+
+                <div class="timetable-header">
+
+                    <div class="timetable-title">
+
+                        <div class="timetable-icon">
+                            <i class="bi bi-calendar-week"></i>
+                        </div>
+
+                        <div>
+
+                            <h5 id="timetableNameDisplay">
+                                Weekly Timetable
+                            </h5>
+
+                            <p id="timetableDetailsDisplay">
+                                No timetable created yet
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="timetable-actions">
+
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-light"
+                            id="printButton"
+                        >
+                            <i class="bi bi-printer"></i>
+                            Print
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn btn-sm btn-light"
+                            id="editButton"
+                            disabled
+                        >
+                            <i class="bi bi-pencil"></i>
+                            Edit
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TIMETABLE -->
+
+            <div class="timetable-card">
+
+                <div class="timetable-card-header">
+
+                    <div>
+
+                        <h5>Weekly Schedule</h5>
+
+                        <span>
+                            Click an empty box to add a class.
+                        </span>
+
+                    </div>
+
+                    <span id="periodCountDisplay">
+                        7 Periods
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="table-wrapper"
+                    id="timetableGridContainer"
+                >
+
+                    <div class="info-empty" style="margin:20px;">
+
+                        <i class="bi bi-calendar-plus"></i>
+
+                        <span>
+                            Create a timetable to begin.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTTOM -->
+
+            <div class="bottom-grid">
+
+                <div class="info-card">
+
+                    <div class="info-card-header">
+
+                        <div class="info-card-icon">
+                            <i class="bi bi-calendar-check"></i>
+                        </div>
+
+                        <div>
+
+                            <h6>Today's Schedule</h6>
+
+                            <p>
+                                Your classes for today
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-empty">
+
+                        <i class="bi bi-calendar2-x"></i>
+
+                        <span>
+                            Today's schedule will appear here.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <div class="info-card-header">
+
+                        <div class="info-card-icon">
+                            <i class="bi bi-cloud-check"></i>
+                        </div>
+
+                        <div>
+
+                            <h6>Saved Timetable</h6>
+
+                            <p>
+                                Automatically saved in this browser
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="info-empty"
+                        id="savedStatus"
+                    >
+
+                        <i class="bi bi-cloud-slash"></i>
+
+                        <span>
+                            No timetable saved yet.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+
+<!-- =========================================================
+     CREATE / EDIT TIMETABLE MODAL
+========================================================== -->
+
+<div
+    class="modal fade"
+    id="createTimetableModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5
+                        class="modal-title"
+                        id="timetableModalTitle"
+                    >
+                        Create Timetable
+                    </h5>
+
+                    <div class="modal-subtitle">
+                        Set the timetable structure and period timings.
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="createTimetableForm">
+
+
+                    <div class="mb-4">
+
+                        <label
+                            for="timetableName"
+                            class="form-label"
+                        >
+                            Timetable Name
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="timetableName"
+                            placeholder="Example: Odd Semester 2026"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Working Days
+                        </label>
+
+
+                        <div class="day-selection">
+
+                            <label class="day-option">
+                                <input
+                                    type="checkbox"
+                                    value="Monday"
+                                >
+                                <span>Monday</span>
+                            </label>
+
+                            <label class="day-option">
+                                <input
+                                    type="checkbox"
+                                    value="Tuesday"
+                                >
+                                <span>Tuesday</span>
+                            </label>
+
+                            <label class="day-option">
+                                <input
+                                    type="checkbox"
+                                    value="Wednesday"
+                                >
+                                <span>Wednesday</span>
+                            </label>
+
+                            <label class="day-option">
+                                <input
+                                    type="checkbox"
+                                    value="Thursday"
+                                >
+                                <span>Thursday</span>
+                            </label>
+
+                            <label class="day-option">
+                                <input
+                                    type="checkbox"
+                                    value="Friday"
+                                >
+                                <span>Friday</span>
+                            </label>
+
+                            <label class="day-option">
+                                <input
+                                    type="checkbox"
+                                    value="Saturday"
+                                >
+                                <span>Saturday</span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <label
+                            for="periodCount"
+                            class="form-label"
+                        >
+                            Number of Periods
+                        </label>
+
+                        <select
+                            id="periodCount"
+                            class="form-select"
+                        >
+
+                            <option value="4">4 Periods</option>
+                            <option value="5">5 Periods</option>
+                            <option value="6">6 Periods</option>
+                            <option value="7">7 Periods</option>
+                            <option value="8">8 Periods</option>
+                            <option value="9">9 Periods</option>
+                            <option value="10">10 Periods</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-md-6">
+
+                            <label
+                                for="defaultStart"
+                                class="form-label"
+                            >
+                                Default Starting Time
+                            </label>
+
+                            <input
+                                type="time"
+                                class="form-control"
+                                id="defaultStart"
+                                value="08:45"
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label
+                                for="defaultDuration"
+                                class="form-label"
+                            >
+                                Default Period Duration
+                            </label>
+
+                            <select
+                                id="defaultDuration"
+                                class="form-select"
+                            >
+
+                                <option value="40">
+                                    40 minutes
+                                </option>
+
+                                <option value="45" selected>
+                                    45 minutes
+                                </option>
+
+                                <option value="50">
+                                    50 minutes
+                                </option>
+
+                                <option value="55">
+                                    55 minutes
+                                </option>
+
+                                <option value="60">
+                                    60 minutes
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-4">
+
+                        <label class="form-label">
+                            Period Timings
+                        </label>
+
+
+                        <div class="period-editor">
+
+                            <div class="period-editor-header">
+
+                                <span>PERIOD</span>
+                                <span>START TIME</span>
+                                <span>END TIME</span>
+
+                            </div>
+
+
+                            <div id="periodEditorBody"></div>
+
+                        </div>
+
+
+                        <div class="time-helper">
+
+                            You can change the start and end time
+                            of every period individually.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DASHBOARD OPTION -->
+
+                    <div class="dashboard-option">
+
+                        <div class="form-check">
+
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="showOnDashboard"
+                            >
+
+                            <label
+                                class="form-check-label"
+                                for="showOnDashboard"
+                            >
+                                Show this timetable on the main Dashboard
+                            </label>
+
+                        </div>
+
+                        <small>
+                            When enabled, your saved timetable will appear
+                            in the Dashboard timetable area.
+                        </small>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="createTimetableConfirm"
+                >
+                    <i class="bi bi-check-lg"></i>
+                    Save Timetable
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     ADD / EDIT CLASS MODAL
+========================================================== -->
+
+<div
+    class="modal fade"
+    id="classModal"
+    tabindex="-1"
+>
+
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5
+                        class="modal-title"
+                        id="classModalTitle"
+                    >
+                        Add Class
+                    </h5>
+
+                    <div
+                        class="modal-subtitle"
+                        id="classLocation"
+                    ></div>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="classForm">
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="subjectName"
+                            class="form-label"
+                        >
+                            Subject Name
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="subjectName"
+                            placeholder="Example: Data Science"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="row g-3 mb-3">
+
+                        <div class="col-md-6">
+
+                            <label
+                                for="classSection"
+                                class="form-label"
+                            >
+                                Class / Section
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="classSection"
+                                placeholder="II AI&DS - A"
+                            >
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <label
+                                for="classRoom"
+                                class="form-label"
+                            >
+                                Room / Lab
+                            </label>
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="classRoom"
+                                placeholder="Lab 2"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Choose an Icon
+                        </label>
+
+
+                        <div class="icon-selection">
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="📚"
+                                    checked
+                                >
+                                <span>📚</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="💻"
+                                >
+                                <span>💻</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="📊"
+                                >
+                                <span>📊</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="🧠"
+                                >
+                                <span>🧠</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="🧮"
+                                >
+                                <span>🧮</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="🧪"
+                                >
+                                <span>🧪</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="🎨"
+                                >
+                                <span>🎨</span>
+                            </label>
+
+                            <label class="icon-option">
+                                <input
+                                    type="radio"
+                                    name="classIcon"
+                                    value="🔬"
+                                >
+                                <span>🔬</span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mb-2">
+
+                        <label class="form-label">
+                            Card Color
+                        </label>
+
+
+                        <div class="color-selection">
+
+                            <label class="color-option">
+                                <input
+                                    type="radio"
+                                    name="classColor"
+                                    value="purple"
+                                    checked
+                                >
+                                <span class="color-purple"></span>
+                            </label>
+
+                            <label class="color-option">
+                                <input
+                                    type="radio"
+                                    name="classColor"
+                                    value="blue"
+                                >
+                                <span class="color-blue"></span>
+                            </label>
+
+                            <label class="color-option">
+                                <input
+                                    type="radio"
+                                    name="classColor"
+                                    value="green"
+                                >
+                                <span class="color-green"></span>
+                            </label>
+
+                            <label class="color-option">
+                                <input
+                                    type="radio"
+                                    name="classColor"
+                                    value="orange"
+                                >
+                                <span class="color-orange"></span>
+                            </label>
+
+                            <label class="color-option">
+                                <input
+                                    type="radio"
+                                    name="classColor"
+                                    value="pink"
+                                >
+                                <span class="color-pink"></span>
+                            </label>
+
+                            <label class="color-option">
+                                <input
+                                    type="radio"
+                                    name="classColor"
+                                    value="teal"
+                                >
+                                <span class="color-teal"></span>
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-danger me-auto d-none"
+                    id="deleteClassButton"
+                >
+                    <i class="bi bi-trash"></i>
+                    Delete
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="saveClassButton"
+                >
+                    Save Class
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- Existing Project JS -->
+
+<script src="js/script.js"></script>
+
+
+<script src="js/storage.js"></script>
+
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+        /* =====================================================
+           STORAGE KEY
+        ===================================================== */
+
+        const STORAGE_KEY =
+            "facultyTimetable";
+
+        const MIGRATION_KEY =
+            "timetableMigrationVersion";
+
+        const TIMETABLE_API =
+            "/api/timetable";
+
+
+        /* =====================================================
+           STATE
+        ===================================================== */
+
+        let timetableData = null;
+
+        let timetableSource = null;
+
+        let timetableRecordId = null;
+
+        let currentCell = null;
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const createButton =
+            document.getElementById(
+                "createButton"
+            );
+
+
+        const createConfirm =
+            document.getElementById(
+                "createTimetableConfirm"
+            );
+
+
+        const periodCount =
+            document.getElementById(
+                "periodCount"
+            );
+
+
+        const defaultStart =
+            document.getElementById(
+                "defaultStart"
+            );
+
+
+        const defaultDuration =
+            document.getElementById(
+                "defaultDuration"
+            );
+
+
+        const periodEditorBody =
+            document.getElementById(
+                "periodEditorBody"
+            );
+
+
+        const createForm =
+            document.getElementById(
+                "createTimetableForm"
+            );
+
+
+        const createModal =
+            new bootstrap.Modal(
+                document.getElementById(
+                    "createTimetableModal"
+                )
+            );
+
+
+        const classModal =
+            new bootstrap.Modal(
+                document.getElementById(
+                    "classModal"
+                )
+            );
+
+
+        /* =====================================================
+           TIME HELPERS
+        ===================================================== */
+
+        function timeToMinutes(time) {
+
+            const parts =
+                time.split(":");
+
+
+            return (
+                Number(parts[0]) * 60 +
+                Number(parts[1])
+            );
+
+        }
+
+
+        function minutesToTime(minutes) {
+
+            minutes =
+                Math.max(
+                    0,
+                    Math.min(
+                        1439,
+                        minutes
+                    )
+                );
+
+
+            const hours =
+                Math.floor(
+                    minutes / 60
+                );
+
+
+            const mins =
+                minutes % 60;
+
+
+            return (
+                String(hours).padStart(2, "0") +
+                ":" +
+                String(mins).padStart(2, "0")
+            );
+
+        }
+
+
+        function displayTime(time) {
+
+            const parts =
+                time.split(":");
+
+
+            let hour =
+                Number(parts[0]);
+
+
+            const minute =
+                parts[1];
+
+
+            const suffix =
+                hour >= 12
+                ? "PM"
+                : "AM";
+
+
+            hour =
+                hour % 12 || 12;
+
+
+            return `${hour}:${minute} ${suffix}`;
+
+        }
+
+
+        /* =====================================================
+           SAVE TIMETABLE
+        ===================================================== */
+
+        async function requestTimetableApi(url, options = {}) {
+
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    Accept: "application/json",
+                    ...(options.body ? { "Content-Type": "application/json" } : {}),
+                    ...options.headers
+                }
+            });
+
+            let result = null;
+            try {
+                result = await response.json();
+            }
+            catch {
+                result = null;
+            }
+
+            if (!response.ok) {
+                throw new Error(result?.error || `Timetable request failed (${response.status}).`);
+            }
+
+            return result;
+
+        }
+
+
+        function hideModalAfterTransition(modal, element) {
+
+            if (modal._isTransitioning) {
+                element.addEventListener(
+                    "shown.bs.modal",
+                    () => modal.hide(),
+                    { once: true }
+                );
+                return;
+            }
+
+            modal.hide();
+
+        }
+
+        async function saveTimetable() {
+
+            if (!timetableData) {
+                return true;
+            }
+
+            try {
+                if (timetableSource === "sqlite") {
+                    await requestTimetableApi(
+                        `${TIMETABLE_API}/${encodeURIComponent(timetableRecordId)}`,
+                        {
+                            method: "PUT",
+                            body: JSON.stringify(timetableData)
+                        }
+                    );
+                }
+                else if (timetableSource === "indexeddb") {
+                    await FacultyStorage.update(
+                        "timetable",
+                        {
+                            ...timetableData,
+                            id: "current"
+                        }
+                    );
+                }
+                else {
+                    const created = await requestTimetableApi(
+                        TIMETABLE_API,
+                        {
+                            method: "POST",
+                            body: JSON.stringify(timetableData)
+                        }
+                    );
+                    timetableSource = "sqlite";
+                    timetableRecordId = created.id;
+                }
+
+                updateSavedStatus();
+                return true;
+            }
+            catch (error) {
+                console.error("Unable to save timetable:", error);
+                alert(error.message || "Unable to save the timetable.");
+                return false;
+            }
+
+        }
+
+
+        /* =====================================================
+           LOAD TIMETABLE
+        ===================================================== */
+
+        function isValidTimetable(value) {
+
+                return Boolean(
+                    value &&
+                    typeof value === "object" &&
+                    !Array.isArray(value) &&
+                    typeof value.name === "string" &&
+                    Array.isArray(value.days) &&
+                    Array.isArray(value.periods) &&
+                    value.periods.every(
+                        period =>
+                            period &&
+                            typeof period === "object" &&
+                            typeof period.number === "number" &&
+                            typeof period.start === "string" &&
+                            typeof period.end === "string"
+                    ) &&
+                    value.classes &&
+                    typeof value.classes === "object" &&
+                    !Array.isArray(value.classes) &&
+                    typeof value.showOnDashboard === "boolean"
+                );
+
+        }
+
+
+        async function migrateLegacyTimetable() {
+
+                const migration =
+                    await FacultyStorage.getMetadata(
+                        MIGRATION_KEY
+                    );
+
+
+                if (
+                    migration &&
+                    migration.value === 1
+                ) {
+
+                    return 0;
+
+                }
+
+
+                const saved =
+                    localStorage.getItem(
+                        STORAGE_KEY
+                    );
+
+
+                if (saved === null) {
+
+                    await FacultyStorage.saveMetadata(
+                        MIGRATION_KEY,
+                        1
+                    );
+
+                    return 0;
+
+                }
+
+
+                let legacyTimetable;
+
+
+                try {
+
+                    legacyTimetable =
+                        JSON.parse(saved);
+
+                } catch (error) {
+
+                    throw new Error(
+                        "Legacy timetable data is not valid JSON."
+                    );
+
+                }
+
+
+                if (!isValidTimetable(legacyTimetable)) {
+
+                    throw new Error(
+                        "Legacy timetable data has an invalid structure."
+                    );
+
+                }
+
+
+                await FacultyStorage.update(
+                    "timetable",
+                    {
+                        ...legacyTimetable,
+                        id: "current"
+                    }
+                );
+
+
+                await FacultyStorage.saveMetadata(
+                    MIGRATION_KEY,
+                    1
+                );
+
+
+                return 1;
+
+        }
+
+
+        async function loadTimetable() {
+
+                const indexedDbTimetable =
+                    await FacultyStorage.get("timetable", "current");
+                let sqliteTimetables = [];
+
+                try {
+                    sqliteTimetables = await requestTimetableApi(TIMETABLE_API);
+                    if (!Array.isArray(sqliteTimetables)) {
+                        throw new Error("The Timetable API returned an invalid schedule list.");
+                    }
+                }
+                catch (error) {
+                    if (!indexedDbTimetable) {
+                        throw error;
+                    }
+                    console.warn("Timetable API unavailable; showing the existing IndexedDB schedule.", error);
+                }
+
+                let saved = null;
+                if (sqliteTimetables.length > 0) {
+                    saved = sqliteTimetables[0];
+                    timetableSource = "sqlite";
+                    timetableRecordId = saved.id;
+                }
+                else if (indexedDbTimetable) {
+                    saved = indexedDbTimetable;
+                    timetableSource = "indexeddb";
+                    timetableRecordId = null;
+                }
+
+
+                if (!saved) {
+                    timetableSource = null;
+                    timetableRecordId = null;
+
+                    updateSavedStatus();
+                    return;
+
+                }
+
+
+                timetableData = {
+                    ...saved
+                };
+
+
+                delete timetableData.id;
+
+
+                if (!timetableData.classes) {
+                    timetableData.classes = {};
+                }
+
+
+                renderTimetable();
+                updateHeader();
+                updateSavedStatus();
+
+            }
+
+
+            /* =====================================================
+           SAVED STATUS
+        ===================================================== */
+
+        function updateSavedStatus() {
+
+            const status =
+                document.getElementById(
+                    "savedStatus"
+                );
+
+
+            if (!timetableData) {
+
+                status.innerHTML = `
+
+                    <i class="bi bi-cloud-slash"></i>
+
+                    <span>
+                        No timetable saved yet.
+                    </span>
+
+                `;
+
+                return;
+
+            }
+
+
+            status.innerHTML = `
+
+                <i class="bi bi-cloud-check"></i>
+
+                <span>
+                    Timetable saved automatically.
+                </span>
+
+            `;
+
+        }
+
+
+        /* =====================================================
+           PERIOD EDITOR
+        ===================================================== */
+
+        function generatePeriodEditor(
+            existingPeriods = null
+        ) {
+
+            const count =
+                Number(
+                    periodCount.value
+                );
+
+
+            const start =
+                defaultStart.value ||
+                "08:45";
+
+
+            const duration =
+                Number(
+                    defaultDuration.value
+                ) || 45;
+
+
+            let current =
+                timeToMinutes(
+                    start
+                );
+
+
+            periodEditorBody.innerHTML =
+                "";
+
+
+            for (
+                let i = 1;
+                i <= count;
+                i++
+            ) {
+
+                let startTime;
+                let endTime;
+
+
+                if (
+                    existingPeriods &&
+                    existingPeriods[i - 1]
+                ) {
+
+                    startTime =
+                        existingPeriods[i - 1].start;
+
+                    endTime =
+                        existingPeriods[i - 1].end;
+
+                }
+                else {
+
+                    startTime =
+                        minutesToTime(
+                            current
+                        );
+
+                    endTime =
+                        minutesToTime(
+                            current + duration
+                        );
+
+                }
+
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                row.className =
+                    "period-row";
+
+
+                row.innerHTML = `
+
+                    <span class="period-label">
+                        P${i}
+                    </span>
+
+                    <input
+                        type="time"
+                        class="form-control period-start"
+                        value="${startTime}"
+                    >
+
+                    <input
+                        type="time"
+                        class="form-control period-end"
+                        value="${endTime}"
+                    >
+
+                `;
+
+
+                periodEditorBody.appendChild(
+                    row
+                );
+
+
+                current =
+                    timeToMinutes(
+                        endTime
+                    );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           OPEN CREATE
+        ===================================================== */
+
+        createButton.addEventListener(
+            "click",
+            function () {
+
+                document
+                    .getElementById(
+                        "timetableModalTitle"
+                    )
+                    .textContent =
+                    timetableData
+                    ? "Edit Timetable"
+                    : "Create Timetable";
+
+
+                if (timetableData) {
+
+                    document
+                        .getElementById(
+                            "timetableName"
+                        )
+                        .value =
+                        timetableData.name;
+
+
+                    periodCount.value =
+                        timetableData.periods.length;
+
+
+                    defaultStart.value =
+                        timetableData.periods[0]
+                        ?.start ||
+                        "08:45";
+
+
+                    document
+                        .getElementById(
+                            "showOnDashboard"
+                        )
+                        .checked =
+                        timetableData.showOnDashboard === true;
+
+
+                    document
+                        .querySelectorAll(
+                            ".day-option input"
+                        )
+                        .forEach(
+                            function (input) {
+
+                                input.checked =
+                                    timetableData.days.includes(
+                                        input.value
+                                    );
+
+                            }
+                        );
+
+
+                    generatePeriodEditor(
+                        timetableData.periods
+                    );
+
+                }
+                else {
+
+                    createForm.reset();
+
+
+                    periodCount.value =
+                        "7";
+
+
+                    defaultStart.value =
+                        "08:45";
+
+
+                    defaultDuration.value =
+                        "45";
+
+
+                    document
+                        .querySelectorAll(
+                            ".day-option input"
+                        )
+                        .forEach(
+                            function (input) {
+
+                                input.checked =
+                                    true;
+
+                            }
+                        );
+
+
+                    document
+                        .getElementById(
+                            "showOnDashboard"
+                        )
+                        .checked =
+                        true;
+
+
+                    generatePeriodEditor();
+
+                }
+
+
+                createModal.show();
+
+            }
+        );
+
+
+        periodCount.addEventListener(
+            "change",
+            function () {
+
+                generatePeriodEditor();
+
+            }
+        );
+
+
+        defaultStart.addEventListener(
+            "change",
+            function () {
+
+                generatePeriodEditor();
+
+            }
+        );
+
+
+        defaultDuration.addEventListener(
+            "change",
+            function () {
+
+                generatePeriodEditor();
+
+            }
+        );
+
+
+        /* =====================================================
+           SAVE TIMETABLE STRUCTURE
+        ===================================================== */
+
+        createConfirm.addEventListener(
+            "click",
+            async function () {
+
+                const name =
+                    document
+                        .getElementById(
+                            "timetableName"
+                        )
+                        .value
+                        .trim();
+
+
+                if (!name) {
+
+                    alert(
+                        "Please enter a timetable name."
+                    );
+
+                    return;
+
+                }
+
+
+                const days =
+                    Array.from(
+                        document.querySelectorAll(
+                            ".day-option input:checked"
+                        )
+                    ).map(
+                        function (input) {
+
+                            return input.value;
+
+                        }
+                    );
+
+
+                if (!days.length) {
+
+                    alert(
+                        "Please select at least one working day."
+                    );
+
+                    return;
+
+                }
+
+
+                const periods =
+                    Array.from(
+                        document.querySelectorAll(
+                            ".period-row"
+                        )
+                    ).map(
+                        function (row, index) {
+
+                            return {
+
+                                number:
+                                    index + 1,
+
+                                start:
+                                    row.querySelector(
+                                        ".period-start"
+                                    ).value,
+
+                                end:
+                                    row.querySelector(
+                                        ".period-end"
+                                    ).value
+
+                            };
+
+                        }
+                    );
+
+
+                for (
+                    let i = 0;
+                    i < periods.length;
+                    i++
+                ) {
+
+                    if (
+                        !periods[i].start ||
+                        !periods[i].end
+                    ) {
+
+                        alert(
+                            `Please enter the time for Period ${i + 1}.`
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        timeToMinutes(
+                            periods[i].end
+                        ) <=
+                        timeToMinutes(
+                            periods[i].start
+                        )
+                    ) {
+
+                        alert(
+                            `Period ${i + 1}: end time must be later than start time.`
+                        );
+
+                        return;
+
+                    }
+
+                }
+
+
+                const oldClasses =
+                    timetableData
+                    ?.classes ||
+                    {};
+                const previousTimetable = timetableData;
+
+
+                timetableData = {
+
+                    name,
+
+                    days,
+
+                    periods,
+
+                    classes:
+                        oldClasses,
+
+                    showOnDashboard:
+                        document
+                            .getElementById(
+                                "showOnDashboard"
+                            )
+                            .checked
+
+                };
+
+
+                if (!await saveTimetable()) {
+                    timetableData = previousTimetable;
+                    return;
+                }
+
+                renderTimetable();
+
+                updateHeader();
+
+                hideModalAfterTransition(
+                    createModal,
+                    document.getElementById("createTimetableModal")
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           UPDATE HEADER
+        ===================================================== */
+
+        function updateHeader() {
+
+            if (!timetableData) {
+
+                document
+                    .getElementById(
+                        "timetableNameDisplay"
+                    )
+                    .textContent =
+                    "Weekly Timetable";
+
+
+                document
+                    .getElementById(
+                        "timetableDetailsDisplay"
+                    )
+                    .textContent =
+                    "No timetable created yet";
+
+
+                document
+                    .getElementById(
+                        "periodCountDisplay"
+                    )
+                    .textContent =
+                    "0 Periods";
+
+
+                document
+                    .getElementById(
+                        "editButton"
+                    )
+                    .disabled =
+                    true;
+
+                return;
+
+            }
+
+
+            document
+                .getElementById(
+                    "timetableNameDisplay"
+                )
+                .textContent =
+                timetableData.name;
+
+
+            document
+                .getElementById(
+                    "timetableDetailsDisplay"
+                )
+                .textContent =
+                `${timetableData.days.join(" • ")} • ${timetableData.periods.length} periods`;
+
+
+            document
+                .getElementById(
+                    "periodCountDisplay"
+                )
+                .textContent =
+                `${timetableData.periods.length} Periods`;
+
+
+            document
+                .getElementById(
+                    "editButton"
+                )
+                .disabled =
+                false;
+
+        }
+
+
+        /* =====================================================
+           RENDER TIMETABLE
+        ===================================================== */
+
+        function renderTimetable() {
+
+            const container =
+                document.getElementById(
+                    "timetableGridContainer"
+                );
+
+
+            if (!timetableData) {
+
+                container.innerHTML = `
+
+                    <div
+                        class="info-empty"
+                        style="margin:20px;"
+                    >
+
+                        <i class="bi bi-calendar-plus"></i>
+
+                        <span>
+                            Create a timetable to begin.
+                        </span>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            let html = `
+
+                <table class="timetable-grid">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>TIME</th>
+
+            `;
+
+
+            timetableData.days.forEach(
+                function (day) {
+
+                    html += `
+                        <th>
+                            ${day.toUpperCase()}
+                        </th>
+                    `;
+
+                }
+            );
+
+
+            html += `
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+            `;
+
+
+            timetableData.periods.forEach(
+                function (period) {
+
+                    html += `
+
+                        <tr>
+
+                            <td class="time-column">
+
+                                <span class="period-number">
+                                    P${period.number}
+                                </span>
+
+                                <span class="period-time">
+
+                                    ${displayTime(period.start)}
+
+                                    <br>
+
+                                    ${displayTime(period.end)}
+
+                                </span>
+
+                            </td>
+
+                    `;
+
+
+                    timetableData.days.forEach(
+                        function (day) {
+
+                            const key =
+                                `${day}-${period.number}`;
+
+
+                            const classData =
+                                timetableData.classes[
+                                    key
+                                ];
+
+
+                            if (classData) {
+
+                                html += `
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="class-box ${classData.color}"
+                                            data-day="${day}"
+                                            data-period="${period.number}"
+                                        >
+
+                                            <span class="class-icon">
+                                                ${classData.icon}
+                                            </span>
+
+                                            <span class="class-subject">
+                                                ${escapeHTML(
+                                                    classData.subject
+                                                )}
+                                            </span>
+
+                                            ${
+                                                classData.section
+                                                ?
+                                                `
+                                                <span class="class-section">
+                                                    <i class="bi bi-people"></i>
+                                                    ${escapeHTML(
+                                                        classData.section
+                                                    )}
+                                                </span>
+                                                `
+                                                :
+                                                ""
+                                            }
+
+                                            ${
+                                                classData.room
+                                                ?
+                                                `
+                                                <span class="class-room">
+                                                    <i class="bi bi-geo-alt"></i>
+                                                    ${escapeHTML(
+                                                        classData.room
+                                                    )}
+                                                </span>
+                                                `
+                                                :
+                                                ""
+                                            }
+
+                                        </button>
+
+                                    </td>
+
+                                `;
+
+                            }
+                            else {
+
+                                html += `
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="class-slot"
+                                            data-day="${day}"
+                                            data-period="${period.number}"
+                                        >
+
+                                            <i class="bi bi-plus-lg"></i>
+
+                                            <span>
+                                                Add Class
+                                            </span>
+
+                                        </button>
+
+                                    </td>
+
+                                `;
+
+                            }
+
+                        }
+                    );
+
+
+                    html += `
+                        </tr>
+                    `;
+
+                }
+            );
+
+
+            html += `
+
+                    </tbody>
+
+                </table>
+
+            `;
+
+
+            container.innerHTML =
+                html;
+
+
+            attachClassEvents();
+
+        }
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ===================================================== */
+
+        function escapeHTML(value) {
+
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.textContent =
+                value || "";
+
+
+            return div.innerHTML;
+
+        }
+
+
+        /* =====================================================
+           CLASS EVENTS
+        ===================================================== */
+
+        function attachClassEvents() {
+
+            document
+                .querySelectorAll(
+                    ".class-slot, .class-box"
+                )
+                .forEach(
+                    function (button) {
+
+                        button.addEventListener(
+                            "click",
+                            function () {
+
+                                openClassModal(
+                                    button.dataset.day,
+                                    Number(
+                                        button.dataset.period
+                                    )
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           OPEN CLASS MODAL
+        ===================================================== */
+
+        function openClassModal(
+            day,
+            period
+        ) {
+
+            currentCell = {
+
+                day,
+
+                period
+
+            };
+
+
+            const key =
+                `${day}-${period}`;
+
+
+            const existing =
+                timetableData.classes[
+                    key
+                ];
+
+
+            document
+                .getElementById(
+                    "classForm"
+                )
+                .reset();
+
+
+            document
+                .getElementById(
+                    "classModalTitle"
+                )
+                .textContent =
+                existing
+                ? "Edit Class"
+                : "Add Class";
+
+
+            document
+                .getElementById(
+                    "classLocation"
+                )
+                .textContent =
+                `${day} • Period ${period}`;
+
+
+            if (existing) {
+
+                document
+                    .getElementById(
+                        "subjectName"
+                    )
+                    .value =
+                    existing.subject;
+
+
+                document
+                    .getElementById(
+                        "classSection"
+                    )
+                    .value =
+                    existing.section || "";
+
+
+                document
+                    .getElementById(
+                        "classRoom"
+                    )
+                    .value =
+                    existing.room || "";
+
+
+                const icons =
+                    document.querySelectorAll(
+                        'input[name="classIcon"]'
+                    );
+
+
+                icons.forEach(
+                    function (input) {
+
+                        input.checked =
+                            input.value ===
+                            existing.icon;
+
+                    }
+                );
+
+
+                const colors =
+                    document.querySelectorAll(
+                        'input[name="classColor"]'
+                    );
+
+
+                colors.forEach(
+                    function (input) {
+
+                        input.checked =
+                            input.value ===
+                            existing.color;
+
+                    }
+                );
+
+
+                document
+                    .getElementById(
+                        "deleteClassButton"
+                    )
+                    .classList
+                    .remove(
+                        "d-none"
+                    );
+
+            }
+            else {
+
+                document
+                    .querySelector(
+                        'input[name="classIcon"][value="📚"]'
+                    )
+                    .checked =
+                    true;
+
+
+                document
+                    .querySelector(
+                        'input[name="classColor"][value="purple"]'
+                    )
+                    .checked =
+                    true;
+
+
+                document
+                    .getElementById(
+                        "deleteClassButton"
+                    )
+                    .classList
+                    .add(
+                        "d-none"
+                    );
+
+            }
+
+
+            classModal.show();
+
+        }
+
+
+        /* =====================================================
+           SAVE CLASS
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saveClassButton"
+            )
+            .addEventListener(
+                "click",
+                async function () {
+
+                    if (
+                        !timetableData ||
+                        !currentCell
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const subject =
+                        document
+                            .getElementById(
+                                "subjectName"
+                            )
+                            .value
+                            .trim();
+
+
+                    if (!subject) {
+
+                        alert(
+                            "Please enter the subject name."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const section =
+                        document
+                            .getElementById(
+                                "classSection"
+                            )
+                            .value
+                            .trim();
+
+
+                    const room =
+                        document
+                            .getElementById(
+                                "classRoom"
+                            )
+                            .value
+                            .trim();
+
+
+                    const icon =
+                        document.querySelector(
+                            'input[name="classIcon"]:checked'
+                        )?.value ||
+                        "📚";
+
+
+                    const color =
+                        document.querySelector(
+                            'input[name="classColor"]:checked'
+                        )?.value ||
+                        "purple";
+
+
+                    const key =
+                        `${currentCell.day}-${currentCell.period}`;
+
+                    const previousClass =
+                        timetableData.classes[key];
+
+
+                    timetableData.classes[
+                        key
+                    ] = {
+
+                        subject,
+
+                        section,
+
+                        room,
+
+                        icon,
+
+                        color
+
+                    };
+
+
+                    if (!await saveTimetable()) {
+                        if (previousClass) {
+                            timetableData.classes[key] = previousClass;
+                        }
+                        else {
+                            delete timetableData.classes[key];
+                        }
+                        return;
+                    }
+
+                    renderTimetable();
+
+
+                    hideModalAfterTransition(
+                        classModal,
+                        document.getElementById("classModal")
+                    );
+
+
+                    currentCell =
+                        null;
+
+                }
+            );
+
+
+        /* =====================================================
+           DELETE CLASS
+        ===================================================== */
+
+        document
+            .getElementById(
+                "deleteClassButton"
+            )
+            .addEventListener(
+                "click",
+                async function () {
+
+                    if (
+                        !timetableData ||
+                        !currentCell
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const confirmed =
+                        confirm(
+                            "Delete this class from the timetable?"
+                        );
+
+
+                    if (!confirmed) {
+
+                        return;
+
+                    }
+
+
+                    const key =
+                        `${currentCell.day}-${currentCell.period}`;
+
+                    const deletedClass =
+                        timetableData.classes[key];
+
+
+                    delete timetableData.classes[
+                        key
+                    ];
+
+
+                    if (!await saveTimetable()) {
+                        timetableData.classes[key] = deletedClass;
+                        return;
+                    }
+
+                    renderTimetable();
+
+
+                    hideModalAfterTransition(
+                        classModal,
+                        document.getElementById("classModal")
+                    );
+
+
+                    currentCell =
+                        null;
+
+                }
+            );
+
+
+        /* =====================================================
+           EDIT TIMETABLE
+        ===================================================== */
+
+        document
+            .getElementById(
+                "editButton"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    if (!timetableData) {
+
+                        return;
+
+                    }
+
+
+                    createButton.click();
+
+                }
+            );
+
+
+        /* =====================================================
+           OTHER BUTTONS
+        ===================================================== */
+
+        document
+            .getElementById(
+                "uploadButton"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    alert(
+                        "Upload Timetable will be added in a later step."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "printButton"
+            )
+            .addEventListener(
+                "click",
+                function () {
+
+                    alert(
+                        "Print will be added later."
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           PROFILE / COMMON SHELL
+        ===================================================== */
+
+        const facultyName =
+            localStorage.getItem("facultyName") || "Faculty";
+
+        const nameDisplay =
+            document.getElementById("facultyNameDisplay");
+
+        if (nameDisplay) {
+            nameDisplay.textContent = facultyName;
+        }
+
+        const profilePicture =
+            localStorage.getItem("facultyProfilePicture");
+
+        const profileAvatar =
+            document.getElementById("topProfileAvatar");
+
+        if (profilePicture && profileAvatar) {
+            profileAvatar.innerHTML =
+                `<img src="${profilePicture}" alt="Profile">`;
+        }
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        (async function initializeTimetable() {
+
+            try {
+
+                await migrateLegacyTimetable();
+                await loadTimetable();
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to initialize timetable:",
+                    error
+                );
+
+                timetableData = null;
+                updateHeader();
+                renderTimetable();
+
+            }
+
+        })();
+
+    }
+
+);
+
+
+</script>
+
+
+    <script src="js/layout.js"></script>
+</body>
+
+</html>

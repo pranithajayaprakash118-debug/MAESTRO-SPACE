@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty | Maestro Space</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            margin: 0;
+            color: #242633;
+            background: var(--theme-page, #f5f6fa);
+        }
+
+        .faculty-page {
+            padding: 28px 30px 36px;
+        }
+
+        .faculty-page-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .faculty-page-icon {
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            flex: 0 0 48px;
+            border-radius: 12px;
+            color: var(--theme-primary, #6366f1);
+            background: var(--theme-soft, #eef2ff);
+            font-size: 22px;
+        }
+
+        .faculty-page-heading h1 {
+            margin: 0;
+            color: #252638;
+            font-size: 23px;
+            font-weight: 700;
+        }
+
+        .faculty-panel {
+            border: 1px solid #e5e7ed;
+            border-radius: 8px;
+            background: #fff;
+            box-shadow: 0 3px 12px rgba(26, 29, 45, 0.035);
+        }
+
+        .faculty-form-panel {
+            padding: 22px 24px 20px;
+            margin-bottom: 24px;
+        }
+
+        .faculty-panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .faculty-panel-heading h2 {
+            margin: 0;
+            color: #292b3a;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .faculty-fields {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 15px;
+        }
+
+        .faculty-form .form-label {
+            margin-bottom: 6px;
+            color: #424554;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .faculty-form .form-control {
+            min-height: 42px;
+            padding: 9px 11px;
+            border: 1px solid #dfe1e8;
+            border-radius: 6px;
+            background: #fff;
+            box-shadow: none;
+            font-size: 14px;
+        }
+
+        .faculty-form .form-control:focus {
+            border-color: var(--theme-primary, #6366f1);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--theme-primary, #6366f1) 14%, transparent);
+        }
+
+        .faculty-form-footer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .faculty-submit-btn {
+            min-height: 40px;
+            padding: 8px 15px;
+            border: 0;
+            border-radius: 6px;
+            color: #fff;
+            background: var(--theme-primary, #6366f1);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .faculty-submit-btn:hover,
+        .faculty-submit-btn:focus-visible {
+            color: #fff;
+            background: var(--theme-primary-dark, #4f46e5);
+        }
+
+        .faculty-cancel-btn {
+            min-height: 40px;
+            padding: 8px 13px;
+            border: 1px solid #dfe1e8;
+            border-radius: 6px;
+            color: #525563;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        .faculty-form-message {
+            min-height: 20px;
+            margin: 9px 0 0;
+            color: #596071;
+            font-size: 13px;
+        }
+
+        .faculty-form-message:empty {
+            display: none;
+        }
+
+        .faculty-form-message[data-state="success"] {
+            color: #13795b;
+        }
+
+        .faculty-form-message[data-state="error"] {
+            color: #b42332;
+        }
+
+        .faculty-table-panel {
+            overflow: hidden;
+        }
+
+        .faculty-table-heading {
+            padding: 19px 22px 15px;
+            margin: 0;
+        }
+
+        .faculty-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 28px;
+            height: 24px;
+            padding: 0 8px;
+            border-radius: 12px;
+            color: var(--theme-primary-dark, #4f46e5);
+            background: var(--theme-soft, #eef2ff);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .faculty-table-wrap {
+            overflow-x: auto;
+        }
+
+        .faculty-table {
+            min-width: 790px;
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        .faculty-table thead th {
+            padding: 11px 18px;
+            border-top: 1px solid #eceef2;
+            border-bottom: 1px solid #e8eaf0;
+            color: #777b89;
+            background: #fafbfc;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .faculty-table tbody td {
+            padding: 13px 18px;
+            border-color: #eff0f3;
+            color: #414452;
+            font-size: 13px;
+        }
+
+        .faculty-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .faculty-name-cell {
+            color: #292b3a !important;
+            font-weight: 600;
+        }
+
+        .faculty-email-cell {
+            overflow-wrap: anywhere;
+            color: #727685 !important;
+        }
+
+        .faculty-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .faculty-action-btn {
+            display: inline-grid;
+            place-items: center;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: 1px solid #e4e6ec;
+            border-radius: 6px;
+            color: #686c7a;
+            background: #fff;
+        }
+
+        .faculty-action-btn:hover {
+            border-color: var(--theme-primary, #6366f1);
+            color: var(--theme-primary-dark, #4f46e5);
+            background: var(--theme-soft, #eef2ff);
+        }
+
+        .faculty-action-btn.delete:hover {
+            border-color: #e8b9bd;
+            color: #b42332;
+            background: #fff5f5;
+        }
+
+        .faculty-empty-state {
+            padding: 42px 20px !important;
+            color: #7b7f8c !important;
+            text-align: center;
+        }
+
+        .faculty-empty-state i {
+            display: block;
+            margin-bottom: 9px;
+            color: #a3a6b1;
+            font-size: 26px;
+        }
+
+        .faculty-dialog {
+            width: min(520px, calc(100vw - 32px));
+            padding: 0;
+            border: 0;
+            border-radius: 9px;
+            color: #292b3a;
+            box-shadow: 0 20px 60px rgba(24, 27, 40, 0.2);
+        }
+
+        .faculty-dialog::backdrop {
+            background: rgba(25, 27, 38, 0.45);
+        }
+
+        .faculty-dialog-header,
+        .faculty-dialog-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 17px 20px;
+        }
+
+        .faculty-dialog-header {
+            border-bottom: 1px solid #eceef2;
+        }
+
+        .faculty-dialog-header h2 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .faculty-dialog-body {
+            padding: 8px 20px;
+        }
+
+        .faculty-detail-row {
+            display: grid;
+            grid-template-columns: 125px minmax(0, 1fr);
+            gap: 12px;
+            padding: 11px 0;
+            border-bottom: 1px solid #f0f1f4;
+            font-size: 14px;
+        }
+
+        .faculty-detail-row:last-child {
+            border-bottom: 0;
+        }
+
+        .faculty-detail-row dt {
+            margin: 0;
+            color: #7b7f8c;
+            font-weight: 500;
+        }
+
+        .faculty-detail-row dd {
+            margin: 0;
+            overflow-wrap: anywhere;
+            color: #303341;
+            font-weight: 600;
+        }
+
+        .faculty-dialog-footer {
+            justify-content: flex-end;
+            border-top: 1px solid #eceef2;
+        }
+
+        @media (max-width: 1100px) {
+            .faculty-fields {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 700px) {
+            .faculty-page {
+                padding: 22px 16px 28px;
+            }
+
+            .faculty-fields {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .faculty-form-panel {
+                padding: 18px 16px;
+            }
+
+            .faculty-table-heading {
+                padding: 17px 16px 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .faculty-fields {
+                grid-template-columns: minmax(0, 1fr);
+            }
+
+            .faculty-page-heading h1 {
+                font-size: 20px;
+            }
+
+            .faculty-detail-row {
+                grid-template-columns: 100px minmax(0, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar-container"></div>
+
+    <main class="main-content">
+        <div id="topbar-container"></div>
+
+        <div class="faculty-page">
+            <header class="faculty-page-heading">
+                <div class="faculty-page-icon" aria-hidden="true">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div>
+                    <h1>Faculty Directory</h1>
+                </div>
+            </header>
+
+            <section class="faculty-panel faculty-form-panel" aria-labelledby="facultyFormHeading">
+                <div class="faculty-panel-heading">
+                    <div>
+                        <h2 id="facultyFormHeading">Add Faculty</h2>
+                    </div>
+                </div>
+
+                <form id="facultyForm" class="faculty-form">
+                    <div class="faculty-fields">
+                        <div>
+                            <label class="form-label" for="facultyName">Faculty Name</label>
+                            <input class="form-control" id="facultyName" name="name" type="text" autocomplete="name" placeholder="e.g. Jordan Lee" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="facultyEmail">Email</label>
+                            <input class="form-control" id="facultyEmail" name="email" type="email" autocomplete="email" placeholder="name@school.edu" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="facultyDepartment">Department</label>
+                            <input class="form-control" id="facultyDepartment" name="department" type="text" placeholder="e.g. Mathematics" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="facultyDesignation">Designation</label>
+                            <input class="form-control" id="facultyDesignation" name="designation" type="text" placeholder="e.g. Associate Professor" required>
+                        </div>
+                        <div>
+                            <label class="form-label" for="facultyPhone">Phone</label>
+                            <input class="form-control" id="facultyPhone" name="phone" type="tel" autocomplete="tel" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="faculty-form-footer">
+                        <button class="faculty-submit-btn" id="facultySubmit" type="submit">
+                            <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>
+                            Add Faculty
+                        </button>
+                        <button class="faculty-cancel-btn" id="cancelEdit" type="button" hidden>Cancel</button>
+                    </div>
+                    <p class="faculty-form-message" id="facultyMessage" role="status" aria-live="polite"></p>
+                </form>
+            </section>
+
+            <section class="faculty-panel faculty-table-panel" aria-labelledby="facultyTableHeading">
+                <div class="faculty-panel-heading faculty-table-heading">
+                    <div>
+                        <h2 id="facultyTableHeading">Faculty Records</h2>
+                    </div>
+                    <span class="faculty-count" id="facultyCount" aria-label="Faculty record count">0</span>
+                </div>
+                <div class="faculty-table-wrap">
+                    <table class="table faculty-table">
+                        <caption class="visually-hidden">Faculty records and available actions</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Faculty</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Department</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col" class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="facultyRows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <dialog class="faculty-dialog" id="facultyDetails" aria-labelledby="facultyDetailsTitle">
+        <div class="faculty-dialog-header">
+            <h2 id="facultyDetailsTitle">Faculty Details</h2>
+            <button class="faculty-action-btn" id="closeFacultyDetails" type="button" aria-label="Close details">
+                <i class="bi bi-x-lg" aria-hidden="true"></i>
+            </button>
+        </div>
+        <dl class="faculty-dialog-body" id="facultyDetailsBody"></dl>
+        <div class="faculty-dialog-footer">
+            <button class="faculty-cancel-btn" id="dismissFacultyDetails" type="button">Close</button>
+        </div>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/layout.js"></script>
+    <script>
+        const facultyEndpoint = "/api/faculty";
+        let facultyRecords = [];
+        let editingFacultyId = null;
+
+        const facultyForm = document.getElementById("facultyForm");
+        const facultyRows = document.getElementById("facultyRows");
+        const facultyMessage = document.getElementById("facultyMessage");
+        const facultyDetails = document.getElementById("facultyDetails");
+        const facultyDetailsBody = document.getElementById("facultyDetailsBody");
+
+        async function requestApi(url, options = {}) {
+            const headers = {
+                Accept: "application/json",
+                ...options.headers
+            };
+            if (options.body) headers["Content-Type"] = "application/json";
+
+            const response = await fetch(url, { ...options, headers });
+            let result = null;
+            try {
+                result = await response.json();
+            } catch {
+                result = null;
+            }
+
+            if (!response.ok) {
+                throw new Error(result?.error || `Request failed (${response.status}).`);
+            }
+            return result;
+        }
+
+        async function refreshFacultyRecords() {
+            const records = await requestApi(facultyEndpoint);
+            if (!Array.isArray(records)) throw new Error("The faculty API returned an invalid record list.");
+            facultyRecords = records;
+            renderFaculty();
+        }
+
+        function setFacultyMessage(message, state = "success") {
+            facultyMessage.textContent = message;
+            facultyMessage.dataset.state = state;
+        }
+
+        function apiErrorMessage(error) {
+            return error instanceof TypeError ? "Unable to reach the faculty API." : error.message;
+        }
+
+        function escapeHTML(value) {
+            return String(value).replace(/[&<>"']/g, character => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#039;"
+            })[character]);
+        }
+
+        function renderFaculty() {
+            document.getElementById("facultyCount").textContent = facultyRecords.length;
+
+            if (facultyRecords.length === 0) {
+                facultyRows.innerHTML = `
+                    <tr>
+                        <td class="faculty-empty-state" colspan="6">
+                            <i class="bi bi-person-plus" aria-hidden="true"></i>
+                            No faculty records yet.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            facultyRows.innerHTML = facultyRecords.map(faculty => `
+                <tr>
+                    <td class="faculty-name-cell">${escapeHTML(faculty.name)}</td>
+                    <td class="faculty-email-cell">${escapeHTML(faculty.email)}</td>
+                    <td>${escapeHTML(faculty.department)}</td>
+                    <td>${escapeHTML(faculty.designation)}</td>
+                    <td>${escapeHTML(faculty.phone || "-")}</td>
+                    <td>
+                        <div class="faculty-actions">
+                            <button class="faculty-action-btn" type="button" data-action="view" data-id="${faculty.id}" title="View faculty" aria-label="View ${escapeHTML(faculty.name)}">
+                                <i class="bi bi-eye" aria-hidden="true"></i>
+                            </button>
+                            <button class="faculty-action-btn" type="button" data-action="edit" data-id="${faculty.id}" title="Edit faculty" aria-label="Edit ${escapeHTML(faculty.name)}">
+                                <i class="bi bi-pencil" aria-hidden="true"></i>
+                            </button>
+                            <button class="faculty-action-btn delete" type="button" data-action="delete" data-id="${faculty.id}" title="Delete faculty" aria-label="Delete ${escapeHTML(faculty.name)}">
+                                <i class="bi bi-trash3" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function resetFacultyForm() {
+            facultyForm.reset();
+            editingFacultyId = null;
+            document.getElementById("facultyFormHeading").textContent = "Add Faculty";
+            document.getElementById("facultySubmit").innerHTML = '<i class="bi bi-plus-lg me-1" aria-hidden="true"></i> Add Faculty';
+            document.getElementById("cancelEdit").hidden = true;
+            facultyMessage.textContent = "";
+        }
+
+        async function showFacultyDetails(id) {
+            let faculty;
+            try {
+                faculty = await requestApi(`${facultyEndpoint}/${encodeURIComponent(id)}`);
+            } catch (error) {
+                setFacultyMessage(apiErrorMessage(error), "error");
+                return;
+            }
+
+            document.getElementById("facultyDetailsTitle").textContent = faculty.name;
+            const fields = [
+                ["Email", faculty.email],
+                ["Department", faculty.department],
+                ["Designation", faculty.designation],
+                ["Phone", faculty.phone || "Not provided"]
+            ];
+
+            facultyDetailsBody.replaceChildren(...fields.map(([label, value]) => {
+                const row = document.createElement("div");
+                row.className = "faculty-detail-row";
+                const term = document.createElement("dt");
+                term.textContent = label;
+                const description = document.createElement("dd");
+                description.textContent = value;
+                row.append(term, description);
+                return row;
+            }));
+            facultyDetails.showModal();
+            setFacultyMessage("Faculty details loaded.");
+        }
+
+        facultyForm.addEventListener("submit", async event => {
+            event.preventDefault();
+            const formData = new FormData(facultyForm);
+            const faculty = Object.fromEntries(formData.entries());
+            const isEditing = editingFacultyId !== null;
+            const recordId = editingFacultyId;
+            const submitButton = document.getElementById("facultySubmit");
+            submitButton.disabled = true;
+
+            try {
+                await requestApi(
+                    isEditing ? `${facultyEndpoint}/${encodeURIComponent(recordId)}` : facultyEndpoint,
+                    {
+                        method: isEditing ? "PUT" : "POST",
+                        body: JSON.stringify(faculty)
+                    }
+                );
+
+                resetFacultyForm();
+                try {
+                    await refreshFacultyRecords();
+                    setFacultyMessage(isEditing ? "Faculty details updated." : "Faculty added.");
+                } catch (error) {
+                    setFacultyMessage(`Saved successfully, but the table could not refresh: ${apiErrorMessage(error)}`, "error");
+                }
+            } catch (error) {
+                setFacultyMessage(apiErrorMessage(error), "error");
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+
+        document.getElementById("cancelEdit").addEventListener("click", resetFacultyForm);
+
+        facultyRows.addEventListener("click", async event => {
+            const button = event.target.closest("button[data-action]");
+            if (!button) return;
+
+            const faculty = facultyRecords.find(item => item.id === Number(button.dataset.id));
+            if (!faculty) return;
+
+            if (button.dataset.action === "view") {
+                await showFacultyDetails(faculty.id);
+            } else if (button.dataset.action === "edit") {
+                editingFacultyId = faculty.id;
+                for (const field of ["name", "email", "department", "designation", "phone"]) {
+                    facultyForm.elements[field].value = faculty[field] || "";
+                }
+                document.getElementById("facultyFormHeading").textContent = "Edit Faculty";
+                document.getElementById("facultySubmit").innerHTML = '<i class="bi bi-check-lg me-1" aria-hidden="true"></i> Save Changes';
+                document.getElementById("cancelEdit").hidden = false;
+                facultyMessage.textContent = "";
+                document.getElementById("facultyName").focus();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else if (button.dataset.action === "delete" && window.confirm(`Delete ${faculty.name}?`)) {
+                button.disabled = true;
+                try {
+                    await requestApi(`${facultyEndpoint}/${encodeURIComponent(faculty.id)}`, { method: "DELETE" });
+                    if (editingFacultyId === faculty.id) resetFacultyForm();
+                    try {
+                        await refreshFacultyRecords();
+                        setFacultyMessage("Faculty deleted.");
+                    } catch (error) {
+                        setFacultyMessage(`Deleted successfully, but the table could not refresh: ${apiErrorMessage(error)}`, "error");
+                    }
+                } catch (error) {
+                    setFacultyMessage(apiErrorMessage(error), "error");
+                } finally {
+                    button.disabled = false;
+                }
+            }
+        });
+
+        document.getElementById("closeFacultyDetails").addEventListener("click", () => facultyDetails.close());
+        document.getElementById("dismissFacultyDetails").addEventListener("click", () => facultyDetails.close());
+
+        renderFaculty();
+        refreshFacultyRecords().catch(error => {
+            setFacultyMessage(`Unable to load faculty records: ${apiErrorMessage(error)}`, "error");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2888 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Subjects Handled - Faculty Management System</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Existing Project CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+
+
+
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6fa;
+            color: #1f2937;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed !important;
+
+            top: 0;
+            left: 0;
+
+            width: 250px !important;
+            height: 100vh !important;
+
+            background: #1e1e2e !important;
+
+            color: white;
+
+            z-index: 1050;
+
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.22) transparent;
+        }
+
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.22);
+            border-radius: 10px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+
+        /* =====================================================
+           SIDEBAR LOGO
+        ===================================================== */
+
+        .sidebar-logo {
+            min-height: 80px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 18px 20px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .sidebar-logo-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            background: var(--theme-primary, #6366f1);
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+
+            flex-shrink: 0;
+        }
+
+
+        .sidebar-logo h5 {
+            margin: 0;
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+        .sidebar-logo span {
+            display: block;
+
+            color: #a8a8b8;
+
+            font-size: 12px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR NAVIGATION
+        ===================================================== */
+
+        .sidebar-nav {
+            padding: 18px 12px 20px;
+        }
+
+
+        .menu-title {
+            margin: 18px 8px 8px;
+
+            color: #77798c;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .sidebar-nav .menu-title:first-child {
+            margin-top: 4px;
+        }
+
+
+        .sidebar .nav-item {
+            display: flex !important;
+
+            align-items: center !important;
+
+            gap: 13px;
+
+            width: 100%;
+
+            min-height: 45px;
+
+            padding: 10px 13px !important;
+
+            margin: 3px 0;
+
+            border-radius: 10px;
+
+            color: #c9c9d4 !important;
+
+            text-decoration: none !important;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar .nav-item i {
+            width: 21px;
+
+            min-width: 21px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        .sidebar .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+
+            color: white !important;
+        }
+
+
+        .sidebar .nav-item.active {
+            background: var(--theme-primary, #6366f1);
+
+            color: white !important;
+        }
+
+
+        .sidebar-bottom {
+            padding: 8px 12px 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+
+        .sidebar .logout {
+            color: #d4a7b2 !important;
+        }
+
+
+        .sidebar .logout:hover {
+            background: rgba(255,255,255,0.08);
+
+            color: white !important;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 250px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 80px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+
+        .topbar-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 0;
+        }
+
+
+        .mobile-menu-btn {
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 23px;
+
+            color: #333;
+
+            margin-right: 12px;
+        }
+
+
+        .topbar-title h4 {
+            font-size: 24px !important;
+
+            font-weight: 600 !important;
+
+            line-height: 1.2 !important;
+
+            margin: 0 !important;
+        }
+
+
+        .topbar-title p {
+            margin: 4px 0 0;
+
+            font-size: 14px;
+
+            color: #888;
+        }
+
+
+        .topbar-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            background: #f7f7fa;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #666;
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           TOP PROFILE
+        ===================================================== */
+
+        .profile-mini {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--theme-soft, #ede9fe);
+
+            color: var(--theme-primary, #6366f1);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .profile-info strong {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .profile-info small {
+            display: block;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+
+        
+
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.page-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+
+}
+
+
+.page-heading h2 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+.page-heading p {
+
+    margin: 5px 0 0;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+}
+
+
+.page-heading .btn {
+
+    background:
+        var(--theme-primary);
+
+    border: none;
+
+}
+
+
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.work-summary-card {
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 100px;
+
+    transition: 0.2s;
+
+}
+
+
+.work-summary-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.05);
+
+    border-color:
+        var(--theme-primary);
+
+}
+
+
+.summary-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    font-size: 21px;
+
+    flex-shrink: 0;
+
+}
+
+
+.summary-icon.pending {
+
+    color: #f59e0b;
+
+    background: #fff7ed;
+
+}
+
+
+.summary-icon.progress {
+
+    color: #3b82f6;
+
+    background: #eff6ff;
+
+}
+
+
+.summary-icon.completed {
+
+    color: #16a34a;
+
+    background: #f0fdf4;
+
+}
+
+
+.work-summary-card span {
+
+    display: block;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+
+    margin-bottom: 3px;
+
+}
+
+
+.work-summary-card h3 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+
+/* =========================================================
+   FILTER AREA
+========================================================= */
+
+.work-filter-area {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    padding: 18px 0;
+
+    border-bottom: 1px solid #f0f1f4;
+
+    margin-bottom: 18px;
+
+}
+
+
+.work-search {
+
+    flex: 1;
+
+    min-width: 220px;
+
+}
+
+
+.work-search .input-group-text {
+
+    background: white;
+
+    border-right: none;
+
+    color: #9ca3af;
+
+}
+
+
+.work-search .form-control {
+
+    border-left: none;
+
+}
+
+
+.work-search .form-control:focus {
+
+    box-shadow: none;
+
+    border-color: #dee2e6;
+
+}
+
+
+.filter-control {
+
+    width: 170px;
+
+}
+
+
+.filter-control .form-select {
+
+    font-size: 12px;
+
+    color: #5f636d;
+
+}
+
+
+.clear-filter-btn {
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+
+    color: #6b7280;
+
+}
+
+
+.clear-filter-btn:hover {
+
+    color: var(--theme-primary);
+
+    background: var(--theme-soft);
+
+    border-color: var(--theme-primary);
+
+}
+
+
+
+/* =========================================================
+   WORK CONTAINER
+========================================================= */
+
+.works-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.works-empty-state {
+
+    text-align: center;
+
+    padding: 55px 20px;
+
+}
+
+
+.empty-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    font-size: 26px;
+
+}
+
+
+.works-empty-state h5 {
+
+    margin-bottom: 7px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+.works-empty-state p {
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.works-empty-state .btn {
+
+    background:
+        var(--theme-primary);
+
+    border: none;
+
+}
+
+
+
+/* =========================================================
+   WORK CARD
+========================================================= */
+
+.work-card {
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    transition: 0.2s;
+
+}
+
+
+.work-card:hover {
+
+    border-color:
+        var(--theme-primary);
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.05);
+
+    transform: translateY(-1px);
+
+}
+
+
+.work-card-main {
+
+    display: flex;
+
+    gap: 14px;
+
+    min-width: 0;
+
+}
+
+
+.work-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    font-size: 19px;
+
+    flex-shrink: 0;
+
+}
+
+
+.work-details {
+
+    min-width: 0;
+
+}
+
+
+.work-details h5 {
+
+    margin: 0 0 7px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+.work-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+}
+
+
+.work-meta span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+}
+
+
+.overdue-text {
+
+    color: #dc2626 !important;
+
+    font-weight: 600;
+
+}
+
+
+.work-details p {
+
+    margin: 12px 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+.work-badges {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 12px;
+
+}
+
+
+.priority-badge,
+.status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.priority-badge.low {
+
+    background: #f0fdf4;
+
+    color: #16a34a;
+
+}
+
+
+.priority-badge.medium {
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+}
+
+
+.priority-badge.high {
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+}
+
+
+.status-badge.pending {
+
+    background: #fff7ed;
+
+    color: #d97706;
+
+}
+
+
+.status-badge.in-progress {
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+}
+
+
+.status-badge.completed {
+
+    background: #f0fdf4;
+
+    color: #16a34a;
+
+}
+
+
+
+/* =========================================================
+   WORK ACTIONS
+========================================================= */
+
+.work-actions {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+
+}
+
+
+.work-action-btn {
+
+    width: 34px;
+
+    height: 34px;
+
+    border: 1px solid #e5e7eb;
+
+    background: white;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #6b7280;
+
+    transition: 0.2s;
+
+}
+
+
+.work-action-btn:hover {
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    border-color:
+        var(--theme-primary);
+
+}
+
+
+.work-action-btn.delete:hover {
+
+    color: #dc2626;
+
+    border-color: #fecaca;
+
+    background: #fef2f2;
+
+}
+
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .filter-control {
+
+        width: calc(33.333% - 7px);
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .page-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .page-heading .btn {
+
+        width: 100%;
+
+    }
+
+
+    .work-filter-area {
+
+        align-items: stretch;
+
+    }
+
+
+    .work-search {
+
+        width: 100%;
+
+    }
+
+
+    .filter-control {
+
+        width: calc(50% - 5px);
+
+    }
+
+
+    .clear-filter-btn {
+
+        width: 100%;
+
+    }
+
+
+    .work-card {
+
+        flex-direction: column;
+
+    }
+
+
+    .work-actions {
+
+        justify-content: flex-end;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .filter-control {
+
+        width: 100%;
+
+    }
+
+}
+
+
+/* =========================================================
+   SUBJECTS PAGE
+========================================================= */
+
+.subjects-page {
+    padding: 32px;
+}
+
+.subjects-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.subjects-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+}
+
+.subjects-title-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: var(--theme-soft, #eef2ff);
+    color: var(--theme-primary, #6366f1);
+    font-size: 23px;
+}
+
+.subjects-title h3 {
+    margin: 0;
+    color: #1e1e2e;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.subjects-title p {
+    margin: 5px 0 0;
+    color: #8b92a1;
+    font-size: 13px;
+}
+
+.add-subject-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--theme-primary, #6366f1);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.add-subject-btn:hover {
+    background: var(--theme-primary-dark, #4f46e5);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.search-box {
+    max-width: 620px;
+    margin-bottom: 24px;
+}
+
+.search-box .input-group {
+    min-height: 44px;
+    border: 1px solid #e2e5ec;
+    border-radius: 11px;
+    background: white;
+    overflow: hidden;
+}
+
+.search-box .input-group-text {
+    padding-left: 15px;
+    padding-right: 8px;
+    border: 0;
+    background: white;
+    color: #9ba1ae;
+}
+
+.search-box .form-control {
+    border: 0;
+    padding: 10px 14px 10px 6px;
+    color: #374151;
+    font-size: 13px;
+}
+
+.search-box .form-control:focus {
+    box-shadow: none;
+}
+
+#subjectsContainer > .row {
+    --bs-gutter-x: 18px;
+    --bs-gutter-y: 18px;
+}
+
+.subject-card {
+    height: 100%;
+    min-height: 220px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 5px 16px rgba(31, 41, 55, 0.035);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.subject-card:hover {
+    border-color: var(--theme-primary, #6366f1);
+    box-shadow: 0 10px 24px rgba(31, 41, 55, 0.08);
+    transform: translateY(-2px);
+}
+
+.subject-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.subject-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 13px;
+    background: var(--theme-soft, #eef2ff);
+    font-size: 23px;
+    flex: 0 0 48px;
+}
+
+.subject-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.subject-actions button {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 38px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: white;
+    color: #7b8190;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.subject-actions button:hover {
+    border-color: var(--theme-primary, #6366f1);
+    background: var(--theme-soft, #eef2ff);
+    color: var(--theme-primary, #6366f1);
+}
+
+.subject-actions .delete-btn:hover {
+    border-color: #fecaca;
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.subject-actions button:focus-visible,
+.icon-option:focus-visible {
+    outline: 3px solid var(--theme-soft, #eef2ff);
+    outline-offset: 2px;
+}
+
+.subject-card h5 {
+    margin: 0 0 5px;
+    color: #1e1e2e;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.subject-code {
+    color: #9299a7;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.subject-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 14px;
+}
+
+.subject-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    padding: 5px 8px;
+    border-radius: 7px;
+    background: #f7f8fc;
+    color: #697181;
+    font-size: 11px;
+}
+
+.subject-description {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 15px 0 0;
+    color: #737b89;
+    font-size: 12px;
+    line-height: 1.55;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.subjects-page .empty-state {
+    min-height: 300px;
+    padding: 36px 20px;
+    border: 1px dashed #d9dce5;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.65);
+}
+
+.subjects-page .empty-icon {
+    width: 58px;
+    height: 58px;
+    margin-bottom: 14px;
+    border-radius: 15px;
+    background: var(--theme-soft, #eef2ff);
+    color: var(--theme-primary, #6366f1);
+    font-size: 25px;
+}
+
+.subjects-page .empty-state h5 {
+    margin-bottom: 6px;
+    color: #1e1e2e;
+    font-size: 16px;
+}
+
+.subjects-page .empty-state p {
+    margin-bottom: 18px;
+    color: #8b92a1;
+    font-size: 13px;
+}
+
+#iconPicker .icon-option {
+    width: 42px;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2e5ec;
+    border-radius: 9px;
+    background: white;
+    color: #374151;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#iconPicker .icon-option:hover {
+    border-color: var(--theme-primary, #6366f1);
+    background: var(--theme-soft, #eef2ff);
+}
+
+#iconPicker .icon-option.selected {
+    border-color: var(--theme-primary, #6366f1);
+    background: var(--theme-soft, #eef2ff);
+    color: var(--theme-primary, #6366f1);
+    box-shadow: 0 0 0 2px var(--theme-soft, #eef2ff);
+}
+
+#subjectModal .modal-dialog {
+    max-height: calc(100dvh - 1rem);
+}
+
+#subjectModal .modal-content {
+    max-height: calc(100dvh - 1rem);
+    overflow: hidden;
+    border: 1px solid rgba(30, 30, 46, 0.08);
+    border-radius: 12px !important;
+    background: #fff;
+    box-shadow: 0 12px 32px rgba(30, 30, 46, 0.13);
+}
+
+#subjectModal .modal-header {
+    align-items: flex-start;
+    padding: 18px 22px;
+    border-bottom: 1px solid #eef0f4;
+    background: #fff;
+}
+
+#subjectModal .modal-title {
+    margin-bottom: 4px;
+    color: #1e1e2e;
+    font-size: 20px;
+    font-weight: 650;
+    line-height: 1.3;
+}
+
+#subjectModal .modal-header small {
+    color: #858b99 !important;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+#subjectModal .modal-header,
+#subjectModal .modal-footer {
+    flex-shrink: 0;
+}
+
+#subjectModal .modal-body {
+    min-height: 0;
+    padding: 22px;
+    background: #fff;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+#subjectModal .form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #414858;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+#subjectModal .form-control,
+#subjectModal .form-select {
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid #dfe3eb;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #374151;
+    font-size: 14px;
+    line-height: 1.45;
+    transition: border-color 0.18s ease, outline-color 0.18s ease;
+}
+
+#subjectModal textarea.form-control {
+    min-height: 112px;
+    resize: vertical;
+}
+
+#subjectModal .form-control:focus,
+#subjectModal .form-select:focus {
+    border-color: var(--theme-primary, #6366f1);
+    outline: 2px solid var(--theme-primary, #6366f1);
+    outline-offset: 1px;
+}
+
+#subjectModal .modal-footer .btn {
+    min-height: 38px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+#subjectModal .modal-footer {
+    gap: 8px;
+    padding: 14px 22px;
+    border-top: 1px solid #eef0f4;
+    background: #fff;
+}
+
+#subjectModal .modal-footer .btn:hover {
+    transform: translateY(-1px);
+}
+
+#subjectModal .modal-footer .btn-primary {
+    border-color: var(--theme-primary, #6366f1);
+    background: var(--theme-primary, #6366f1);
+    color: #fff;
+}
+
+#subjectModal .modal-footer .btn-primary:hover {
+    border-color: var(--theme-primary-dark, #4f46e5);
+    background: var(--theme-primary-dark, #4f46e5);
+}
+
+@media (max-width: 768px) {
+    .subjects-page {
+        padding: 24px 18px;
+    }
+
+    .subjects-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .subjects-header .add-subject-btn {
+        width: 100%;
+    }
+
+    .search-box {
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .subjects-title h3 {
+        font-size: 21px;
+    }
+
+    .subjects-title p {
+        line-height: 1.45;
+    }
+
+    .subject-card {
+        padding: 16px;
+    }
+
+    #subjectModal .modal-header {
+        padding: 18px 20px;
+    }
+
+    #subjectModal .modal-body {
+        padding: 20px;
+    }
+
+    #subjectModal .modal-footer {
+        gap: 8px;
+        padding: 14px 20px;
+    }
+}
+
+
+
+
+
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<div id="sidebar-container"></div>
+
+
+    <main class="main-content">
+
+
+<div id="topbar-container"></div>
+
+
+<div class="subjects-page">
+
+
+        <!-- HEADER -->
+
+        <div class="subjects-header">
+
+            <div class="subjects-title">
+
+                <div class="subjects-title-icon">
+
+                    <i class="bi bi-book-half"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Subjects Handled
+                    </h3>
+
+                    <p>
+                        Add and manage the subjects you teach.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="btn add-subject-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#subjectModal"
+                onclick="prepareAddSubject()"
+            >
+
+                <i class="bi bi-plus-lg"></i>
+
+                Add Subject
+
+            </button>
+
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <div class="input-group">
+
+                <span class="input-group-text">
+
+                    <i class="bi bi-search"></i>
+
+                </span>
+
+
+                <input
+                    type="text"
+                    id="searchSubject"
+                    class="form-control"
+                    placeholder="Search by subject name, code, class or section..."
+                    oninput="searchSubjects()"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- SUBJECTS -->
+
+        <div id="subjectsContainer">
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+
+                    <i class="bi bi-book"></i>
+
+                </div>
+
+
+                <h5>
+                    No Subjects Added Yet
+                </h5>
+
+
+                <p>
+                    Start by adding the subjects you currently handle.
+                </p>
+
+
+                <button
+                    class="btn add-subject-btn"
+                    data-bs-toggle="modal"
+                    data-bs-target="#subjectModal"
+                    onclick="prepareAddSubject()"
+                >
+
+                    <i class="bi bi-plus-lg"></i>
+
+                    Add Your First Subject
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    </main>
+
+
+<!-- =========================================================
+     ADD / EDIT SUBJECT MODAL
+========================================================= -->
+
+<div
+    class="modal fade"
+    id="subjectModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+
+        <div class="modal-content border-0 rounded-4">
+
+
+            <!-- MODAL HEADER -->
+
+            <div class="modal-header">
+
+                <div>
+
+                    <h5
+                        class="modal-title"
+                        id="subjectModalTitle"
+                    >
+                        Add Subject
+                    </h5>
+
+
+                    <small class="text-muted">
+                        Enter the subject details
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+            <!-- MODAL BODY -->
+
+            <div class="modal-body">
+
+                <form id="subjectForm">
+
+
+                    <!-- Subject Name -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Subject Name
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="subjectName"
+                            placeholder="Example: Database Management Systems"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="row">
+
+
+                        <!-- Subject Code -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Subject Code
+                            </label>
+
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="subjectCode"
+                                placeholder="Example: CS3401"
+                            >
+
+                        </div>
+
+
+                        <!-- Semester -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Semester
+                            </label>
+
+
+                            <select
+                                class="form-select"
+                                id="semester"
+                            >
+
+                                <option value="">
+                                    Select Semester
+                                </option>
+
+                                <option value="Semester 1">
+                                    Semester 1
+                                </option>
+
+                                <option value="Semester 2">
+                                    Semester 2
+                                </option>
+
+                                <option value="Semester 3">
+                                    Semester 3
+                                </option>
+
+                                <option value="Semester 4">
+                                    Semester 4
+                                </option>
+
+                                <option value="Semester 5">
+                                    Semester 5
+                                </option>
+
+                                <option value="Semester 6">
+                                    Semester 6
+                                </option>
+
+                                <option value="Semester 7">
+                                    Semester 7
+                                </option>
+
+                                <option value="Semester 8">
+                                    Semester 8
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="row">
+
+
+                        <!-- Class -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Class / Section
+                            </label>
+
+
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="classSection"
+                                placeholder="Example: III AI&DS - A"
+                            >
+
+                        </div>
+
+
+                        <!-- Icon -->
+
+                        <div class="col-md-6 mb-3">
+
+                            <label class="form-label">
+                                Choose Icon
+                            </label>
+
+
+                            <div
+                                class="d-flex flex-wrap gap-2"
+                                id="iconPicker"
+                            >
+
+                                <button
+                                    type="button"
+                                    class="icon-option selected"
+                                    data-icon="📚"
+                                    onclick="selectIcon(this)"
+                                >
+                                    📚
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="💻"
+                                    onclick="selectIcon(this)"
+                                >
+                                    💻
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="🧠"
+                                    onclick="selectIcon(this)"
+                                >
+                                    🧠
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="📊"
+                                    onclick="selectIcon(this)"
+                                >
+                                    📊
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="🧮"
+                                    onclick="selectIcon(this)"
+                                >
+                                    🧮
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="🧪"
+                                    onclick="selectIcon(this)"
+                                >
+                                    🧪
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="🔬"
+                                    onclick="selectIcon(this)"
+                                >
+                                    🔬
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="icon-option"
+                                    data-icon="🎨"
+                                    onclick="selectIcon(this)"
+                                >
+                                    🎨
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Description -->
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Notes / Description
+                        </label>
+
+
+                        <textarea
+                            class="form-control"
+                            id="subjectDescription"
+                            rows="4"
+                            placeholder="Add any important information about this subject..."
+                        ></textarea>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- MODAL FOOTER -->
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveSubject()"
+                >
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Save Subject
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- Existing Project JS -->
+
+<script src="js/script.js"></script>
+
+
+<script src="js/storage.js"></script>
+
+
+<script>
+
+    /* =====================================================
+       SUBJECT DATA
+    ===================================================== */
+
+    let subjects = [];
+
+    let editingId = null;
+
+    let editingSource = null;
+
+    let selectedIcon = "📚";
+
+    const SUBJECTS_API = "/api/subjects";
+
+
+    async function requestSubjectsApi(url, options = {}) {
+
+        const response = await fetch(url, {
+            ...options,
+            headers: {
+                Accept: "application/json",
+                ...(options.body ? { "Content-Type": "application/json" } : {}),
+                ...options.headers
+            }
+        });
+
+        let result = null;
+        try {
+            result = await response.json();
+        }
+        catch {
+            result = null;
+        }
+
+        if (!response.ok) {
+            throw new Error(result?.error || `Subjects request failed (${response.status}).`);
+        }
+
+        return result;
+
+    }
+
+
+    /* =====================================================
+       PAGE LOAD
+    ===================================================== */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        async function () {
+
+            const picture =
+                localStorage.getItem("facultyProfilePicture");
+
+            const avatar =
+                document.getElementById("topProfileAvatar");
+
+            if (picture && avatar) {
+                avatar.innerHTML = `<img src="${picture}" alt="Profile">`;
+            }
+
+
+            await loadSubjects();
+
+        }
+    );
+
+
+    async function loadSubjects() {
+
+        const indexedDbSubjects = await FacultyStorage.getAll("subjects");
+        let sqliteSubjects;
+
+        try {
+            sqliteSubjects = await requestSubjectsApi(SUBJECTS_API);
+            if (!Array.isArray(sqliteSubjects)) {
+                throw new Error("The Subjects API returned an invalid subject list.");
+            }
+        }
+        catch (error) {
+            console.error("Unable to load SQLite subjects:", error);
+            subjects = indexedDbSubjects.map(subject => ({
+                ...subject,
+                source: "indexeddb"
+            }));
+            renderSubjects();
+            return false;
+        }
+
+        subjects = [
+            ...sqliteSubjects.map(subject => ({ ...subject, source: "sqlite" })),
+            ...indexedDbSubjects.map(subject => ({ ...subject, source: "indexeddb" }))
+        ];
+
+        renderSubjects();
+        return true;
+
+    }
+
+
+    /* =====================================================
+       PREPARE ADD
+    ===================================================== */
+
+    function prepareAddSubject() {
+
+        editingId = null;
+        editingSource = null;
+
+        selectedIcon = "📚";
+
+
+        document.getElementById(
+            "subjectModalTitle"
+        ).textContent = "Add Subject";
+
+
+        document.getElementById(
+            "subjectForm"
+        ).reset();
+
+
+        document
+            .querySelectorAll(".icon-option")
+            .forEach(button => {
+
+                button.classList.remove("selected");
+
+
+                if (
+                    button.dataset.icon === selectedIcon
+                ) {
+
+                    button.classList.add("selected");
+
+                }
+
+            });
+
+    }
+
+
+    /* =====================================================
+       SELECT ICON
+    ===================================================== */
+
+    function selectIcon(button) {
+
+        document
+            .querySelectorAll(".icon-option")
+            .forEach(item => {
+
+                item.classList.remove("selected");
+
+            });
+
+
+        button.classList.add("selected");
+
+
+        selectedIcon =
+            button.dataset.icon;
+
+    }
+
+
+    /* =====================================================
+       SAVE SUBJECT
+    ===================================================== */
+
+    async function saveSubject() {
+
+        const subjectName =
+            document
+                .getElementById("subjectName")
+                .value
+                .trim();
+
+
+        const subjectCode =
+            document
+                .getElementById("subjectCode")
+                .value
+                .trim();
+
+
+        const section =
+            document
+                .getElementById("semester")
+                .value;
+
+
+        const className =
+            document
+                .getElementById("classSection")
+                .value
+                .trim();
+
+
+        const description =
+            document
+                .getElementById("subjectDescription")
+                .value
+                .trim();
+
+        const subjectData = {
+            name: subjectName,
+            code: subjectCode,
+            className,
+            section,
+            icon: selectedIcon,
+            description
+        };
+
+
+        if (!subjectName) {
+
+            alert(
+                "Please enter the subject name."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            if (editingId !== null) {
+
+                const existingSubject =
+                    subjects.find(subject =>
+                        subject.id === editingId &&
+                        subject.source === editingSource
+                    );
+
+                if (!existingSubject) {
+                    alert("The subject could not be found.");
+                    return;
+                }
+
+                if (editingSource === "sqlite") {
+                    await requestSubjectsApi(
+                        `${SUBJECTS_API}/${encodeURIComponent(editingId)}`,
+                        {
+                            method: "PUT",
+                            body: JSON.stringify(subjectData)
+                        }
+                    );
+                }
+                else {
+                    const { source: ignoredSource, ...storedSubject } = existingSubject;
+                    await FacultyStorage.update("subjects", {
+                        ...storedSubject,
+                        ...subjectData,
+                        updatedAt: new Date().toISOString()
+                    });
+                }
+
+            } else {
+
+                await requestSubjectsApi(
+                    SUBJECTS_API,
+                    {
+                        method: "POST",
+                        body: JSON.stringify(subjectData)
+                    }
+                );
+
+            }
+
+            await loadSubjects();
+
+        } catch (error) {
+
+            console.error("Unable to save subject:", error);
+            alert(error.message || "Unable to save the subject.");
+            return;
+
+        }
+
+        const modalElement =
+            document.getElementById(
+                "subjectModal"
+            );
+
+
+        const modal =
+            bootstrap.Modal.getInstance(
+                modalElement
+            );
+
+
+        if (modal) {
+
+            modal.hide();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       RENDER SUBJECTS
+    ===================================================== */
+
+    function renderSubjects(
+        filteredSubjects = null
+    ) {
+
+        const container =
+            document.getElementById(
+                "subjectsContainer"
+            );
+
+
+        const data =
+            filteredSubjects !== null
+                ? filteredSubjects
+                : subjects;
+
+
+        if (data.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-book"></i>
+
+                    </div>
+
+
+                    <h5>
+                        No Subjects Found
+                    </h5>
+
+
+                    <p>
+                        Add a subject or try a different search.
+                    </p>
+
+
+                    <button
+                        class="btn add-subject-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#subjectModal"
+                        onclick="prepareAddSubject()"
+                    >
+
+                        <i class="bi bi-plus-lg"></i>
+
+                        Add Subject
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = `
+
+            <div class="row g-4">
+
+                ${data.map(subject => {
+
+                    const source = subject.source || "indexeddb";
+
+                    return `
+
+                        <div class="col-xl-4 col-md-6">
+
+                            <div class="subject-card">
+
+
+                                <div class="subject-top">
+
+
+                                    <div class="subject-icon">
+
+                                        ${subject.icon}
+
+                                    </div>
+
+
+                                    <div class="subject-actions">
+
+
+                                        <button
+                                            type="button"
+                                            title="Edit"
+                                            onclick="editSubject(${subject.id}, '${source}')"
+                                        >
+
+                                            <i class="bi bi-pencil"></i>
+
+                                        </button>
+
+
+                                        <button
+                                            type="button"
+                                            class="delete-btn"
+                                            title="Delete"
+                                            onclick="deleteSubject(${subject.id}, '${source}')"
+                                        >
+
+                                            <i class="bi bi-trash3"></i>
+
+                                        </button>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <h5>
+
+                                    ${escapeHTML(
+                                        subject.name
+                                    )}
+
+                                </h5>
+
+
+                                <div class="subject-code">
+
+                                    ${
+                                        subject.code
+                                            ? escapeHTML(
+                                                subject.code
+                                              )
+                                            : "No subject code"
+                                    }
+
+                                </div>
+
+
+                                <div class="subject-details">
+
+
+                                    ${
+                                        subject.className
+                                            ? `
+                                                <span class="subject-badge">
+
+                                                    <i class="bi bi-people"></i>
+
+                                                    ${escapeHTML(
+                                                        subject.className
+                                                    )}
+
+                                                </span>
+                                            `
+                                            : ""
+                                    }
+
+
+                                    ${
+                                        subject.section
+                                            ? `
+                                                <span class="subject-badge">
+
+                                                    <i class="bi bi-mortarboard"></i>
+
+                                                    ${escapeHTML(
+                                                        subject.section
+                                                    )}
+
+                                                </span>
+                                            `
+                                            : ""
+                                    }
+
+
+                                </div>
+
+
+                                <p class="subject-description">
+
+                                    ${
+                                        subject.description
+                                            ? escapeHTML(
+                                                subject.description
+                                              )
+                                            : "No additional notes added."
+                                    }
+
+                                </p>
+
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }).join("")}
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* =====================================================
+       EDIT SUBJECT
+    ===================================================== */
+
+    function editSubject(id, source = "indexeddb") {
+
+        const subject =
+            subjects.find(item =>
+                item.id === Number(id) &&
+                item.source === source
+            );
+
+
+        if (!subject) {
+
+            return;
+
+        }
+
+
+        editingId = subject.id;
+
+        editingSource = source;
+
+
+        document.getElementById(
+            "subjectModalTitle"
+        ).textContent = "Edit Subject";
+
+
+        document.getElementById(
+            "subjectName"
+        ).value =
+            subject.name || "";
+
+
+        document.getElementById(
+            "subjectCode"
+        ).value =
+            subject.code || "";
+
+
+        document.getElementById(
+            "semester"
+        ).value =
+            subject.section || "";
+
+
+        document.getElementById(
+            "classSection"
+        ).value =
+            subject.className || "";
+
+
+        document.getElementById(
+            "subjectDescription"
+        ).value =
+            subject.description || "";
+
+
+        selectedIcon =
+            subject.icon || "📚";
+
+
+        document
+            .querySelectorAll(".icon-option")
+            .forEach(button => {
+
+                button.classList.remove("selected");
+
+
+                if (
+                    button.dataset.icon === selectedIcon
+                ) {
+
+                    button.classList.add("selected");
+
+                }
+
+            });
+
+
+        const modal =
+            new bootstrap.Modal(
+                document.getElementById(
+                    "subjectModal"
+                )
+            );
+
+
+        modal.show();
+
+    }
+
+
+    /* =====================================================
+       DELETE SUBJECT
+    ===================================================== */
+
+    async function deleteSubject(id, source = "indexeddb") {
+
+        const subject =
+            subjects.find(item =>
+                item.id === Number(id) &&
+                item.source === source
+            );
+
+
+        if (!subject) {
+
+            return;
+
+        }
+
+
+        const confirmed =
+            confirm(
+                `Delete "${subject.name}"?`
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        try {
+
+            if (source === "sqlite") {
+                await requestSubjectsApi(
+                    `${SUBJECTS_API}/${encodeURIComponent(subject.id)}`,
+                    { method: "DELETE" }
+                );
+            }
+            else {
+                await FacultyStorage.delete(
+                    "subjects",
+                    subject.id
+                );
+            }
+
+            await loadSubjects();
+
+        } catch (error) {
+
+            console.error("Unable to delete subject:", error);
+            alert(error.message || "Unable to delete the subject.");
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ===================================================== */
+
+    function searchSubjects() {
+
+        const query =
+            document
+                .getElementById(
+                    "searchSubject"
+                )
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        if (!query) {
+
+            renderSubjects();
+
+            return;
+
+        }
+
+
+        const filtered =
+            subjects.filter(
+                subject =>
+
+                    (subject.name || "")
+                        .toLowerCase()
+                        .includes(query)
+
+                    ||
+
+                    (subject.code || "")
+                        .toLowerCase()
+                        .includes(query)
+
+                    ||
+
+                    (subject.className || "")
+                        .toLowerCase()
+                        .includes(query)
+
+                    ||
+
+                    (subject.section || "")
+                        .toLowerCase()
+                        .includes(query)
+
+            );
+
+
+        renderSubjects(filtered);
+
+    }
+
+
+    /* =====================================================
+       SAFE HTML
+    ===================================================== */
+
+    function escapeHTML(value) {
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+
+</script>
+
+
+    <script src="js/layout.js"></script>
+</body>
+
+</html>

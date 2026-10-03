@@ -1,0 +1,3189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Pending Works | Faculty Management</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- Project CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <div id="sidebar-container"></div>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- TOPBAR -->
+
+        <div id="topbar-container"></div>
+
+
+
+        <!-- =====================================================
+             CONTENT
+        ====================================================== -->
+
+        <section class="content-area">
+
+
+            <!-- PAGE HEADING -->
+
+            <div class="page-heading">
+
+
+                <div>
+
+                    <h2>
+                        Pending Works
+                    </h2>
+
+                    <p>
+                        Manage your tasks, deadlines and work progress
+                    </p>
+
+                </div>
+
+
+
+                <button
+                    class="btn btn-primary"
+                    type="button"
+                    onclick="openWorkModal()"
+                >
+
+                    <i class="bi bi-plus-lg"></i>
+
+                    Add Work
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SUMMARY CARDS
+            ================================================== -->
+
+            <div class="row g-4">
+
+
+                <!-- TOTAL -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="work-summary-card">
+
+
+                        <div class="summary-icon">
+
+                            <i class="bi bi-list-task"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total Works
+                            </span>
+
+                            <h3 id="totalWorks">
+                                0
+                            </h3>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PENDING -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="work-summary-card">
+
+
+                        <div class="summary-icon pending">
+
+                            <i class="bi bi-hourglass-split"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Pending
+                            </span>
+
+                            <h3 id="pendingWorks">
+                                0
+                            </h3>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PROGRESS -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="work-summary-card">
+
+
+                        <div class="summary-icon progress">
+
+                            <i class="bi bi-arrow-repeat"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                In Progress
+                            </span>
+
+                            <h3 id="progressWorks">
+                                0
+                            </h3>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- COMPLETED -->
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="work-summary-card">
+
+
+                        <div class="summary-icon completed">
+
+                            <i class="bi bi-check-circle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Completed
+                            </span>
+
+                            <h3 id="completedWorks">
+                                0
+                            </h3>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 WORK MANAGEMENT
+            ================================================== -->
+
+            <div class="content-card mt-4">
+
+
+                <!-- HEADER -->
+
+                <div class="card-header-custom">
+
+
+                    <div>
+
+                        <h5>
+                            My Works
+                        </h5>
+
+                        <p id="worksStatusText">
+                            All your tasks
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SEARCH + FILTERS
+                ================================================== -->
+
+                <div class="work-filter-area">
+
+
+                    <!-- SEARCH -->
+
+                    <div class="work-search">
+
+
+                        <div class="input-group">
+
+
+                            <span class="input-group-text">
+
+                                <i class="bi bi-search"></i>
+
+                            </span>
+
+
+                            <input
+                                type="text"
+                                id="searchWorks"
+                                class="form-control"
+                                placeholder="Search works..."
+                                oninput="filterWorks()"
+                            >
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- CATEGORY -->
+
+                    <div class="filter-control">
+
+
+                        <select
+                            id="categoryFilter"
+                            class="form-select"
+                            onchange="filterWorks()"
+                        >
+
+                            <option value="All">
+                                All Categories
+                            </option>
+
+                            <option value="Academic">
+                                Academic
+                            </option>
+
+                            <option value="Teaching">
+                                Teaching
+                            </option>
+
+                            <option value="Department">
+                                Department
+                            </option>
+
+                            <option value="Meeting">
+                                Meeting
+                            </option>
+
+                            <option value="Personal">
+                                Personal
+                            </option>
+
+                            <option value="Other">
+                                Other
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- PRIORITY -->
+
+                    <div class="filter-control">
+
+
+                        <select
+                            id="priorityFilter"
+                            class="form-select"
+                            onchange="filterWorks()"
+                        >
+
+                            <option value="All">
+                                All Priorities
+                            </option>
+
+                            <option value="Low">
+                                Low Priority
+                            </option>
+
+                            <option value="Medium">
+                                Medium Priority
+                            </option>
+
+                            <option value="High">
+                                High Priority
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- STATUS -->
+
+                    <div class="filter-control">
+
+
+                        <select
+                            id="statusFilter"
+                            class="form-select"
+                            onchange="filterWorks()"
+                        >
+
+                            <option value="All">
+                                All Status
+                            </option>
+
+                            <option value="Pending">
+                                Pending
+                            </option>
+
+                            <option value="In Progress">
+                                In Progress
+                            </option>
+
+                            <option value="Completed">
+                                Completed
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
+
+
+                    <!-- CLEAR -->
+
+                    <button
+                        class="btn btn-light clear-filter-btn"
+                        onclick="clearFilters()"
+                        type="button"
+                        title="Clear filters"
+                    >
+
+                        <i class="bi bi-x-lg"></i>
+
+                    </button>
+
+
+                </div>
+
+
+
+                <!-- =================================================
+                     WORKS CONTAINER
+                ================================================== -->
+
+                <div
+                    id="worksContainer"
+                    class="works-container"
+                >
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     ADD / EDIT WORK MODAL
+========================================================== -->
+
+<div
+    class="modal fade"
+    id="workModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+
+                <div>
+
+                    <h5
+                        class="modal-title"
+                        id="workModalTitle"
+                    >
+                        Add Work
+                    </h5>
+
+                    <small class="text-muted">
+                        Add your task details
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+
+            </div>
+
+
+
+            <div class="modal-body">
+
+
+                <form id="workForm">
+
+
+                    <input
+                        type="hidden"
+                        id="workId"
+                    >
+
+
+
+                    <!-- TASK -->
+
+                    <div class="mb-3">
+
+
+                        <label
+                            for="workTask"
+                            class="form-label"
+                        >
+                            Task / Work
+                        </label>
+
+
+                        <input
+                            type="text"
+                            id="workTask"
+                            class="form-control"
+                            placeholder="Enter task or work"
+                            required
+                        >
+
+
+                    </div>
+
+
+
+                    <div class="row">
+
+
+                        <!-- DEADLINE -->
+
+                        <div class="col-md-6 mb-3">
+
+
+                            <label
+                                for="workDeadline"
+                                class="form-label"
+                            >
+                                Deadline
+                            </label>
+
+
+                            <input
+                                type="date"
+                                id="workDeadline"
+                                class="form-control"
+                                required
+                            >
+
+
+                        </div>
+
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="col-md-6 mb-3">
+
+
+                            <label
+                                for="workCategory"
+                                class="form-label"
+                            >
+                                Category
+                            </label>
+
+
+                            <select
+                                id="workCategory"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="Academic">
+                                    Academic
+                                </option>
+
+                                <option value="Teaching">
+                                    Teaching
+                                </option>
+
+                                <option value="Department">
+                                    Department
+                                </option>
+
+                                <option value="Meeting">
+                                    Meeting
+                                </option>
+
+                                <option value="Personal">
+                                    Personal
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="row">
+
+
+                        <!-- PRIORITY -->
+
+                        <div class="col-md-6 mb-3">
+
+
+                            <label
+                                for="workPriority"
+                                class="form-label"
+                            >
+                                Priority
+                            </label>
+
+
+                            <select
+                                id="workPriority"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="Low">
+                                    Low
+                                </option>
+
+                                <option
+                                    value="Medium"
+                                    selected
+                                >
+                                    Medium
+                                </option>
+
+                                <option value="High">
+                                    High
+                                </option>
+
+                            </select>
+
+
+                        </div>
+
+
+
+                        <!-- STATUS -->
+
+                        <div class="col-md-6 mb-3">
+
+
+                            <label
+                                for="workStatus"
+                                class="form-label"
+                            >
+                                Status
+                            </label>
+
+
+                            <select
+                                id="workStatus"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="Pending">
+                                    Pending
+                                </option>
+
+                                <option value="In Progress">
+                                    In Progress
+                                </option>
+
+                                <option value="Completed">
+                                    Completed
+                                </option>
+
+                            </select>
+
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="mb-3">
+
+
+                        <label
+                            for="workDescription"
+                            class="form-label"
+                        >
+                            Description
+                        </label>
+
+
+                        <textarea
+                            id="workDescription"
+                            class="form-control"
+                            rows="5"
+                            placeholder="Add some details about this work..."
+                        ></textarea>
+
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+
+            <div class="modal-footer">
+
+
+                <button
+                    type="button"
+                    class="btn btn-light"
+                    data-bs-dismiss="modal"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveWork()"
+                >
+
+                    <i class="bi bi-check-lg"></i>
+
+                    Save Work
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================================================
+     BOOTSTRAP
+========================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<script src="js/script.js"></script>
+
+
+<script src="js/storage.js"></script>
+
+
+
+<!-- =========================================================
+     PENDING WORKS JAVASCRIPT
+========================================================== -->
+
+<script>
+
+
+/* =========================================================
+   DATA
+========================================================= */
+
+const WORK_STORAGE_KEY =
+    "facultyPendingWorks";
+
+const WORK_MIGRATION_KEY =
+    "pendingWorksMigrationVersion";
+
+let works = [];
+let editingWorkSource = null;
+
+async function requestWorksApi(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            Accept: "application/json",
+            ...(options.body ? { "Content-Type": "application/json" } : {}),
+            ...options.headers
+        }
+    });
+
+    let result = null;
+    try {
+        result = await response.json();
+    }
+    catch {
+        result = null;
+    }
+
+    if (!response.ok) {
+        throw new Error(result?.error || `Pending works request failed (${response.status}).`);
+    }
+
+    return result;
+}
+
+/* =========================================================
+   LOAD WORKS
+========================================================= */
+
+async function migrateLegacyWorks() {
+
+    const migration =
+        await FacultyStorage.getMetadata(
+            WORK_MIGRATION_KEY
+        );
+
+
+    if (
+        migration &&
+        migration.value === 1
+    ) {
+
+        return 0;
+
+    }
+
+
+    const savedWorks =
+        localStorage.getItem(
+            WORK_STORAGE_KEY
+        );
+
+
+    if (savedWorks === null) {
+
+        await FacultyStorage.saveMetadata(
+            WORK_MIGRATION_KEY,
+            1
+        );
+
+        return 0;
+
+    }
+
+
+    let legacyWorks;
+
+
+    try {
+
+        legacyWorks =
+            JSON.parse(savedWorks);
+
+    } catch (error) {
+
+        throw new Error(
+            "Legacy pending works data is not valid JSON."
+        );
+
+    }
+
+
+    if (!Array.isArray(legacyWorks)) {
+
+        throw new Error(
+            "Legacy pending works data is not an array."
+        );
+
+    }
+
+
+    let migratedCount = 0;
+
+
+    for (const legacyWork of legacyWorks) {
+
+        if (
+            !legacyWork ||
+            typeof legacyWork !== "object" ||
+            Array.isArray(legacyWork)
+        ) {
+
+            continue;
+
+        }
+
+
+        const work = {
+            ...legacyWork,
+            updatedAt:
+                legacyWork.updatedAt ||
+                new Date().toISOString()
+        };
+
+
+        if (
+            work.id === undefined ||
+            work.id === null ||
+            work.id === ""
+        ) {
+
+            delete work.id;
+
+        }
+
+
+        await FacultyStorage.add(
+            "pendingWorks",
+            work
+        );
+
+        migratedCount += 1;
+
+    }
+
+
+    await FacultyStorage.saveMetadata(
+        WORK_MIGRATION_KEY,
+        1
+    );
+
+
+    return migratedCount;
+
+}
+
+
+
+/* =========================================================
+   SAVE WORKS TO STORAGE
+========================================================= */
+
+async function loadWorks() {
+    const indexedDbWorks = await FacultyStorage.getAll("pendingWorks");
+
+    try {
+        const sqliteWorks = await requestWorksApi("/api/pending-works");
+        if (!Array.isArray(sqliteWorks)) {
+            throw new Error("The Pending Works API returned an invalid work list.");
+        }
+
+        works = [
+            ...sqliteWorks.map(work => ({ ...work, source: "sqlite" })),
+            ...indexedDbWorks.map(work => ({ ...work, source: "indexeddb" }))
+        ];
+    }
+    catch (error) {
+        console.error("Unable to load SQLite pending works:", error);
+        works = indexedDbWorks.map(work => ({ ...work, source: "indexeddb" }));
+    }
+}
+
+
+
+/* =========================================================
+   OPEN ADD WORK MODAL
+========================================================= */
+
+function openWorkModal() {
+    editingWorkSource = null;
+
+    document
+        .getElementById("workForm")
+        .reset();
+
+
+    document
+        .getElementById("workId")
+        .value = "";
+
+
+    document
+        .getElementById("workModalTitle")
+        .textContent = "Add Work";
+
+
+    document
+        .getElementById("workPriority")
+        .value = "Medium";
+
+
+    document
+        .getElementById("workStatus")
+        .value = "Pending";
+
+
+    const modal =
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById("workModal")
+        );
+
+
+    modal.show();
+
+}
+
+
+
+/* =========================================================
+   SAVE WORK
+========================================================= */
+
+async function saveWork() {
+    const task =
+        document
+            .getElementById("workTask")
+            .value
+            .trim();
+
+
+    const deadline =
+        document
+            .getElementById("workDeadline")
+            .value;
+
+
+    const category =
+        document
+            .getElementById("workCategory")
+            .value;
+
+
+    const priority =
+        document
+            .getElementById("workPriority")
+            .value;
+
+
+    const status =
+        document
+            .getElementById("workStatus")
+            .value;
+
+
+    const description =
+        document
+            .getElementById("workDescription")
+            .value
+            .trim();
+
+
+    const id =
+        document
+            .getElementById("workId")
+            .value;
+
+
+    if (
+        !task ||
+        !deadline ||
+        !category
+    ) {
+
+        alert(
+            "Please fill in the task, deadline and category."
+        );
+
+        return;
+
+    }
+
+    const payload = { task, deadline, category, priority, status, description };
+
+    try {
+        const existingWork = id
+            ? works.find(item => item.id === Number(id) && item.source === editingWorkSource)
+            : null;
+
+        if (id && existingWork) {
+            if (editingWorkSource === "sqlite") {
+                await requestWorksApi(`/api/pending-works/${encodeURIComponent(existingWork.id)}`, {
+                    method: "PUT",
+                    body: JSON.stringify(payload)
+                });
+            }
+            else {
+                await FacultyStorage.update("pendingWorks", {
+                    ...existingWork,
+                    ...payload,
+                    updatedAt: new Date().toISOString()
+                });
+            }
+        }
+        else {
+            await requestWorksApi("/api/pending-works", {
+                method: "POST",
+                body: JSON.stringify(payload)
+            });
+        }
+
+        await loadWorks();
+        renderWorks();
+    } catch (error) {
+        console.error("Unable to save work:", error);
+        alert(error.message || "Unable to save the work.");
+        return;
+
+    }
+
+    const modal =
+        bootstrap.Modal.getInstance(
+            document.getElementById("workModal")
+        );
+
+
+    if (modal) {
+
+        modal.hide();
+
+    }
+
+
+}
+
+
+
+/* =========================================================
+   EDIT WORK
+========================================================= */
+
+function editWork(id, source = "indexeddb") {
+    const work =
+        works.find(
+            item =>
+                item.id === Number(id) &&
+                item.source === source
+        );
+
+
+    if (!work) {
+
+        return;
+
+    }
+
+    editingWorkSource = source;
+
+    document
+        .getElementById("workId")
+        .value =
+        work.id;
+
+
+    document
+        .getElementById("workTask")
+        .value =
+        work.task;
+
+
+    document
+        .getElementById("workDeadline")
+        .value =
+        work.deadline;
+
+
+    document
+        .getElementById("workCategory")
+        .value =
+        work.category;
+
+
+    document
+        .getElementById("workPriority")
+        .value =
+        work.priority;
+
+
+    document
+        .getElementById("workStatus")
+        .value =
+        work.status;
+
+
+    document
+        .getElementById("workDescription")
+        .value =
+        work.description || "";
+
+
+    document
+        .getElementById("workModalTitle")
+        .textContent =
+        "Edit Work";
+
+
+
+    const modal =
+        bootstrap.Modal.getOrCreateInstance(
+            document.getElementById("workModal")
+        );
+
+
+    modal.show();
+
+}
+
+
+
+/* =========================================================
+   DELETE WORK
+========================================================= */
+
+async function deleteWork(id, source = "indexeddb") {
+    const work =
+        works.find(
+            item =>
+                item.id === Number(id) &&
+                item.source === source
+        );
+
+
+    if (!work) {
+
+        return;
+
+    }
+
+
+
+    const confirmed =
+        confirm(
+            `Delete "${work.task}"?`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+
+    try {
+        if (source === "sqlite") {
+            await requestWorksApi(
+                `/api/pending-works/${encodeURIComponent(work.id)}`,
+                { method: "DELETE" }
+            );
+        }
+        else {
+            await FacultyStorage.delete("pendingWorks", work.id);
+        }
+
+        await loadWorks();
+        renderWorks();
+
+    } catch (error) {
+
+        console.error("Unable to delete work:", error);
+        alert(error.message || "Unable to delete the work.");
+
+    }
+
+}
+
+
+
+/* =========================================================
+   FILTER WORKS
+========================================================= */
+
+function filterWorks() {
+
+
+    const search =
+        document
+            .getElementById("searchWorks")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const category =
+        document
+            .getElementById("categoryFilter")
+            .value;
+
+
+    const priority =
+        document
+            .getElementById("priorityFilter")
+            .value;
+
+
+    const status =
+        document
+            .getElementById("statusFilter")
+            .value;
+
+
+
+    const filteredWorks =
+        works.filter(
+            work => {
+
+
+                const searchableText =
+                    (
+                        work.task +
+                        " " +
+                        work.category +
+                        " " +
+                        work.priority +
+                        " " +
+                        work.status +
+                        " " +
+                        work.description
+                    )
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    searchableText.includes(
+                        search
+                    );
+
+
+                const matchesCategory =
+                    category === "All" ||
+                    work.category === category;
+
+
+                const matchesPriority =
+                    priority === "All" ||
+                    work.priority === priority;
+
+
+                const matchesStatus =
+                    status === "All" ||
+                    work.status === status;
+
+
+
+                return (
+                    matchesSearch &&
+                    matchesCategory &&
+                    matchesPriority &&
+                    matchesStatus
+                );
+
+            }
+        );
+
+
+
+    renderWorks(
+        filteredWorks
+    );
+
+}
+
+
+
+/* =========================================================
+   CLEAR FILTERS
+========================================================= */
+
+function clearFilters() {
+
+
+    document
+        .getElementById("searchWorks")
+        .value = "";
+
+
+    document
+        .getElementById("categoryFilter")
+        .value = "All";
+
+
+    document
+        .getElementById("priorityFilter")
+        .value = "All";
+
+
+    document
+        .getElementById("statusFilter")
+        .value = "All";
+
+
+    renderWorks();
+
+}
+
+
+
+/* =========================================================
+   RENDER WORKS
+========================================================= */
+
+function renderWorks(
+    displayWorks = works
+) {
+
+
+    const container =
+        document.getElementById(
+            "worksContainer"
+        );
+
+
+    updateSummary();
+
+
+
+    document
+        .getElementById("worksStatusText")
+        .textContent =
+        getStatusText(
+            displayWorks.length
+        );
+
+
+
+    if (
+        displayWorks.length === 0
+    ) {
+
+
+        const hasFilters =
+            document
+                .getElementById("searchWorks")
+                .value
+                .trim() !== "" ||
+            document
+                .getElementById("categoryFilter")
+                .value !== "All" ||
+            document
+                .getElementById("priorityFilter")
+                .value !== "All" ||
+            document
+                .getElementById("statusFilter")
+                .value !== "All";
+
+
+
+        if (hasFilters) {
+
+
+            container.innerHTML = `
+
+                <div class="works-empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+
+                    <h5>
+                        No matching works
+                    </h5>
+
+
+                    <p>
+                        Try changing your search or filters.
+                    </p>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="clearFilters()"
+                    >
+
+                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                        Clear Filters
+
+                    </button>
+
+                </div>
+
+            `;
+
+
+        }
+        else {
+
+
+            container.innerHTML = `
+
+                <div class="works-empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-clipboard-check"></i>
+
+                    </div>
+
+
+                    <h5>
+                        No works added yet
+                    </h5>
+
+
+                    <p>
+                        Add your first task to start managing your pending works.
+                    </p>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="openWorkModal()"
+                    >
+
+                        <i class="bi bi-plus-lg"></i>
+
+                        Add Work
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }
+
+
+        return;
+
+    }
+
+
+
+    /* Newest first */
+
+    const sortedWorks =
+        [...displayWorks].sort(
+            (a, b) =>
+                b.id - a.id
+        );
+
+
+
+    container.innerHTML =
+        sortedWorks
+            .map(
+                work =>
+                    createWorkCard(work)
+            )
+            .join("");
+
+}
+
+
+
+/* =========================================================
+   WORK STATUS TEXT
+========================================================= */
+
+function getStatusText(count) {
+
+
+    const total =
+        works.length;
+
+
+    if (total === 0) {
+
+        return "No works added yet";
+
+    }
+
+
+    if (count === total) {
+
+        return `${total} work${total === 1 ? "" : "s"}`;
+
+    }
+
+
+    return `${count} matching work${count === 1 ? "" : "s"} of ${total}`;
+
+}
+
+
+
+/* =========================================================
+   CREATE WORK CARD
+========================================================= */
+
+function createWorkCard(
+    work
+) {
+
+
+    const deadline =
+        new Date(
+            work.deadline +
+            "T00:00:00"
+        );
+
+
+
+    const formattedDeadline =
+        deadline.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+
+
+    const today =
+        new Date();
+
+    today.setHours(
+        0,
+        0,
+        0,
+        0
+    );
+
+
+
+    const isOverdue =
+        deadline < today &&
+        work.status !== "Completed";
+
+
+
+    const source = work.source || "indexeddb";
+
+    return `
+
+        <div class="work-card">
+
+
+            <div class="work-card-main">
+
+
+                <div class="work-icon">
+
+                    <i class="bi bi-clipboard2-check"></i>
+
+                </div>
+
+
+
+                <div class="work-details">
+
+
+                    <h5>
+
+                        ${escapeWorkHtml(
+                            work.task
+                        )}
+
+                    </h5>
+
+
+
+                    <div class="work-meta">
+
+
+                        <span>
+
+                            <i class="bi bi-calendar3"></i>
+
+                            ${formattedDeadline}
+
+                        </span>
+
+
+
+                        <span>
+
+                            <i class="bi bi-folder2"></i>
+
+                            ${escapeWorkHtml(
+                                work.category
+                            )}
+
+                        </span>
+
+
+
+                        ${
+                            isOverdue
+                            ?
+                            `
+                            <span class="overdue-text">
+
+                                <i class="bi bi-exclamation-circle"></i>
+
+                                Overdue
+
+                            </span>
+                            `
+                            :
+                            ""
+                        }
+
+
+                    </div>
+
+
+
+                    ${
+                        work.description
+                        ?
+                        `
+                        <p>
+
+                            ${escapeWorkHtml(
+                                work.description
+                            )}
+
+                        </p>
+                        `
+                        :
+                        ""
+                    }
+
+
+
+                    <div class="work-badges">
+
+
+                        <span
+                            class="priority-badge ${work.priority.toLowerCase()}"
+                        >
+
+                            ${escapeWorkHtml(
+                                work.priority
+                            )}
+                            Priority
+
+                        </span>
+
+
+
+                        <span
+                            class="status-badge ${getStatusClass(work.status)}"
+                        >
+
+                            ${escapeWorkHtml(
+                                work.status
+                            )}
+
+                        </span>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="work-actions">
+
+
+                <button
+                    class="work-action-btn"
+                    onclick="editWork(${work.id}, '${source}')"
+                    title="Edit"
+                >
+
+                    <i class="bi bi-pencil"></i>
+
+                </button>
+
+
+
+                <button
+                    class="work-action-btn delete"
+                    onclick="deleteWork(${work.id}, '${source}')"
+                    title="Delete"
+                >
+
+                    <i class="bi bi-trash"></i>
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    `;
+
+}
+
+
+
+/* =========================================================
+   STATUS CLASS
+========================================================= */
+
+function getStatusClass(
+    status
+) {
+
+
+    if (
+        status === "In Progress"
+    ) {
+
+        return "in-progress";
+
+    }
+
+
+    if (
+        status === "Completed"
+    ) {
+
+        return "completed";
+
+    }
+
+
+    return "pending";
+
+}
+
+
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+function updateSummary() {
+
+
+    document
+        .getElementById("totalWorks")
+        .textContent =
+        works.length;
+
+
+
+    document
+        .getElementById("pendingWorks")
+        .textContent =
+        works.filter(
+            work =>
+                work.status === "Pending"
+        ).length;
+
+
+
+    document
+        .getElementById("progressWorks")
+        .textContent =
+        works.filter(
+            work =>
+                work.status === "In Progress"
+        ).length;
+
+
+
+    document
+        .getElementById("completedWorks")
+        .textContent =
+        works.filter(
+            work =>
+                work.status === "Completed"
+        ).length;
+
+}
+
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeWorkHtml(
+    value
+) {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        value ?? "";
+
+
+    return div.innerHTML;
+
+}
+
+
+
+/* =========================================================
+   FACULTY NAME
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function() {
+
+        const facultyName =
+            localStorage.getItem("facultyName") ||
+            "Faculty";
+
+        const nameElement =
+            document.getElementById(
+                "facultyNameDisplay"
+            );
+
+        if (nameElement) {
+            nameElement.textContent = facultyName;
+        }
+
+        const profilePicture =
+            localStorage.getItem(
+                "facultyProfilePicture"
+            );
+
+        const avatar =
+            document.getElementById(
+                "topProfileAvatar"
+            );
+
+        if (
+            profilePicture &&
+            avatar
+        ) {
+            avatar.innerHTML =
+                `<img src="${profilePicture}" alt="Profile">`;
+        }
+
+        try {
+
+            await migrateLegacyWorks();
+            await loadWorks();
+            renderWorks();
+
+        } catch (error) {
+
+            console.error(
+                "Unable to initialize pending works:",
+                error
+            );
+
+            works = [];
+            renderWorks();
+
+        }
+
+    }
+);
+
+</script>
+
+
+
+<!-- =========================================================
+     PAGE STYLES
+========================================================== -->
+
+<style>
+
+
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f6fa;
+            color: #1f2937;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed !important;
+
+            top: 0;
+            left: 0;
+
+            width: 250px !important;
+            height: 100vh !important;
+
+            background: #1e1e2e !important;
+
+            color: white;
+
+            z-index: 1050;
+
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.22) transparent;
+        }
+
+
+        .sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.22);
+            border-radius: 10px;
+        }
+
+
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+
+        /* =====================================================
+           SIDEBAR LOGO
+        ===================================================== */
+
+        .sidebar-logo {
+            min-height: 80px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 18px 20px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+
+        .sidebar-logo-icon {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 13px;
+
+            background: var(--theme-primary, #6366f1);
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+
+            flex-shrink: 0;
+        }
+
+
+        .sidebar-logo h5 {
+            margin: 0;
+
+            color: white;
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+
+        .sidebar-logo span {
+            display: block;
+
+            color: #a8a8b8;
+
+            font-size: 12px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR NAVIGATION
+        ===================================================== */
+
+        .sidebar-nav {
+            padding: 18px 12px 20px;
+        }
+
+
+        .menu-title {
+            margin: 18px 8px 8px;
+
+            color: #77798c;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.2px;
+        }
+
+
+        .sidebar-nav .menu-title:first-child {
+            margin-top: 4px;
+        }
+
+
+        .sidebar .nav-item {
+            display: flex !important;
+
+            align-items: center !important;
+
+            gap: 13px;
+
+            width: 100%;
+
+            min-height: 45px;
+
+            padding: 10px 13px !important;
+
+            margin: 3px 0;
+
+            border-radius: 10px;
+
+            color: #c9c9d4 !important;
+
+            text-decoration: none !important;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            transition: 0.2s ease;
+        }
+
+
+        .sidebar .nav-item i {
+            width: 21px;
+
+            min-width: 21px;
+
+            text-align: center;
+
+            font-size: 17px;
+        }
+
+
+        .sidebar .nav-item:hover {
+            background: rgba(255,255,255,0.08);
+
+            color: white !important;
+        }
+
+
+        .sidebar .nav-item.active {
+            background: var(--theme-primary, #6366f1);
+
+            color: white !important;
+        }
+
+
+        .sidebar-bottom {
+            padding: 8px 12px 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+
+        .sidebar .logout {
+            color: #d4a7b2 !important;
+        }
+
+
+        .sidebar .logout:hover {
+            background: rgba(255,255,255,0.08);
+
+            color: white !important;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+        ===================================================== */
+
+        .main-content {
+            margin-left: 250px;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           TOPBAR
+        ===================================================== */
+
+        .topbar {
+            height: 80px;
+
+            background: white;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+
+        .topbar-left {
+            display: flex;
+
+            align-items: center;
+
+            gap: 0;
+        }
+
+
+        .mobile-menu-btn {
+            display: none;
+
+            border: none;
+
+            background: transparent;
+
+            font-size: 23px;
+
+            color: #333;
+
+            margin-right: 12px;
+        }
+
+
+        .topbar-title h4 {
+            font-size: 24px !important;
+
+            font-weight: 600 !important;
+
+            line-height: 1.2 !important;
+
+            margin: 0 !important;
+        }
+
+
+        .topbar-title p {
+            margin: 4px 0 0;
+
+            font-size: 14px;
+
+            color: #888;
+        }
+
+
+        .topbar-actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .icon-btn {
+            width: 38px;
+            height: 38px;
+
+            border: none;
+
+            background: #f7f7fa;
+
+            border-radius: 11px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #666;
+
+            font-size: 17px;
+        }
+
+
+        /* =====================================================
+           TOP PROFILE
+        ===================================================== */
+
+        .profile-mini {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: var(--theme-soft, #ede9fe);
+
+            color: var(--theme-primary, #6366f1);
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+
+        .profile-info strong {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .profile-info small {
+            display: block;
+
+            color: #888;
+
+            font-size: 12px;
+        }
+
+
+        
+
+
+
+/* =========================================================
+   PAGE HEADING
+========================================================= */
+
+.page-heading {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+
+}
+
+
+.page-heading h2 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+.page-heading p {
+
+    margin: 5px 0 0;
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+}
+
+
+.page-heading .btn {
+
+    background:
+        var(--theme-primary);
+
+    border: none;
+
+}
+
+
+
+/* =========================================================
+   SUMMARY CARDS
+========================================================= */
+
+.work-summary-card {
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    min-height: 100px;
+
+    transition: 0.2s;
+
+}
+
+
+.work-summary-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.05);
+
+    border-color:
+        var(--theme-primary);
+
+}
+
+
+.summary-icon {
+
+    width: 48px;
+
+    height: 48px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    font-size: 21px;
+
+    flex-shrink: 0;
+
+}
+
+
+.summary-icon.pending {
+
+    color: #f59e0b;
+
+    background: #fff7ed;
+
+}
+
+
+.summary-icon.progress {
+
+    color: #3b82f6;
+
+    background: #eff6ff;
+
+}
+
+
+.summary-icon.completed {
+
+    color: #16a34a;
+
+    background: #f0fdf4;
+
+}
+
+
+.work-summary-card span {
+
+    display: block;
+
+    color: #9ca3af;
+
+    font-size: 12px;
+
+    margin-bottom: 3px;
+
+}
+
+
+.work-summary-card h3 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+
+/* =========================================================
+   FILTER AREA
+========================================================= */
+
+.work-filter-area {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    padding: 18px 0;
+
+    border-bottom: 1px solid #f0f1f4;
+
+    margin-bottom: 18px;
+
+}
+
+
+.work-search {
+
+    flex: 1;
+
+    min-width: 220px;
+
+}
+
+
+.work-search .input-group-text {
+
+    background: white;
+
+    border-right: none;
+
+    color: #9ca3af;
+
+}
+
+
+.work-search .form-control {
+
+    border-left: none;
+
+}
+
+
+.work-search .form-control:focus {
+
+    box-shadow: none;
+
+    border-color: #dee2e6;
+
+}
+
+
+.filter-control {
+
+    width: 170px;
+
+}
+
+
+.filter-control .form-select {
+
+    font-size: 12px;
+
+    color: #5f636d;
+
+}
+
+
+.clear-filter-btn {
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #e5e7eb;
+
+    color: #6b7280;
+
+}
+
+
+.clear-filter-btn:hover {
+
+    color: var(--theme-primary);
+
+    background: var(--theme-soft);
+
+    border-color: var(--theme-primary);
+
+}
+
+
+
+/* =========================================================
+   WORK CONTAINER
+========================================================= */
+
+.works-container {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.works-empty-state {
+
+    text-align: center;
+
+    padding: 55px 20px;
+
+}
+
+
+.empty-icon {
+
+    width: 60px;
+
+    height: 60px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    font-size: 26px;
+
+}
+
+
+.works-empty-state h5 {
+
+    margin-bottom: 7px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+.works-empty-state p {
+
+    color: #9ca3af;
+
+    font-size: 13px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.works-empty-state .btn {
+
+    background:
+        var(--theme-primary);
+
+    border: none;
+
+}
+
+
+
+/* =========================================================
+   WORK CARD
+========================================================= */
+
+.work-card {
+
+    background: white;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    transition: 0.2s;
+
+}
+
+
+.work-card:hover {
+
+    border-color:
+        var(--theme-primary);
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,0.05);
+
+    transform: translateY(-1px);
+
+}
+
+
+.work-card-main {
+
+    display: flex;
+
+    gap: 14px;
+
+    min-width: 0;
+
+}
+
+
+.work-icon {
+
+    width: 44px;
+
+    height: 44px;
+
+    border-radius: 11px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    font-size: 19px;
+
+    flex-shrink: 0;
+
+}
+
+
+.work-details {
+
+    min-width: 0;
+
+}
+
+
+.work-details h5 {
+
+    margin: 0 0 7px;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    color: #1e1e2e;
+
+}
+
+
+.work-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    color: #9ca3af;
+
+    font-size: 11px;
+
+}
+
+
+.work-meta span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+}
+
+
+.overdue-text {
+
+    color: #dc2626 !important;
+
+    font-weight: 600;
+
+}
+
+
+.work-details p {
+
+    margin: 12px 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+.work-badges {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 12px;
+
+}
+
+
+.priority-badge,
+.status-badge {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+}
+
+
+.priority-badge.low {
+
+    background: #f0fdf4;
+
+    color: #16a34a;
+
+}
+
+
+.priority-badge.medium {
+
+    background: #fff7ed;
+
+    color: #ea580c;
+
+}
+
+
+.priority-badge.high {
+
+    background: #fef2f2;
+
+    color: #dc2626;
+
+}
+
+
+.status-badge.pending {
+
+    background: #fff7ed;
+
+    color: #d97706;
+
+}
+
+
+.status-badge.in-progress {
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+}
+
+
+.status-badge.completed {
+
+    background: #f0fdf4;
+
+    color: #16a34a;
+
+}
+
+
+
+/* =========================================================
+   WORK ACTIONS
+========================================================= */
+
+.work-actions {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+
+}
+
+
+.work-action-btn {
+
+    width: 34px;
+
+    height: 34px;
+
+    border: 1px solid #e5e7eb;
+
+    background: white;
+
+    border-radius: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #6b7280;
+
+    transition: 0.2s;
+
+}
+
+
+.work-action-btn:hover {
+
+    background:
+        var(--theme-soft);
+
+    color:
+        var(--theme-primary);
+
+    border-color:
+        var(--theme-primary);
+
+}
+
+
+.work-action-btn.delete:hover {
+
+    color: #dc2626;
+
+    border-color: #fecaca;
+
+    background: #fef2f2;
+
+}
+
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 992px) {
+
+    .filter-control {
+
+        width: calc(33.333% - 7px);
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .page-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .page-heading .btn {
+
+        width: 100%;
+
+    }
+
+
+    .work-filter-area {
+
+        align-items: stretch;
+
+    }
+
+
+    .work-search {
+
+        width: 100%;
+
+    }
+
+
+    .filter-control {
+
+        width: calc(50% - 5px);
+
+    }
+
+
+    .clear-filter-btn {
+
+        width: 100%;
+
+    }
+
+
+    .work-card {
+
+        flex-direction: column;
+
+    }
+
+
+    .work-actions {
+
+        justify-content: flex-end;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .filter-control {
+
+        width: 100%;
+
+    }
+
+}
+
+
+</style>
+
+
+    <script src="js/layout.js"></script>
+</body>
+
+</html>
